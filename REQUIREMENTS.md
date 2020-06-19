@@ -8,9 +8,9 @@
 
 - [✅] Have the developer environment set up with the Webpack dev server
 
-- [] Use Sass for styling
+- [✅] Use Sass for styling
 
-- [] Minify js and styles in the production environment
+- [✅] Minify js and styles in the production environment
 
 - [] Response from the API must be added to the view for a user to see
 
