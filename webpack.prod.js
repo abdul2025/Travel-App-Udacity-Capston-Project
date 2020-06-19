@@ -12,6 +12,7 @@ module.exports = {
 	output: {
 		libraryTarget: 'var',
 		library: 'Client',
+		filename: 'bundle.js',
 	},
 	mode: 'production',
 	optimization: {
@@ -59,7 +60,7 @@ module.exports = {
 			template: './src/client/views/index.html',
 			filename: './index.html',
 		}),
-		new MiniCssExtractPlugin({ filename: '[name].css' }),
+		new MiniCssExtractPlugin({ filename: './style/[name].css' }),
 		// new WorkboxPlugin.GenerateSW(),
 	],
 };
