@@ -1,7 +1,6 @@
 import { greating } from './js/app';
 
 import './style/assets.scss';
-import './style/test.scss';
 
 console.log('CHANGE!!');
 
