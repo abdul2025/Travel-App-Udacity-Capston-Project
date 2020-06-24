@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
 	res.sendFile('dist/index.html');
 });
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 // designates what port the app will listen to for incoming requests
 app.listen(port, function () {
 	console.log(` app listening on port ${port}`);

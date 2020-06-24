@@ -1,5 +1,3 @@
-$fa-font-path: '~font-awesome/fonts';
-@import '~font-awesome/scss/font-awesome.scss';
 @import url('https://fonts.googleapis.com/css2?family=Piedra&display=swap');
 $font: 'Piedra', cursive;
 * {
@@ -12,4 +10,8 @@ h1 {
 
 i {
 	font-size: 40px !important;
+}
+
+.gg {
+	font-size: 40px;
 }

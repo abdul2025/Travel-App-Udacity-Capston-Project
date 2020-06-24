@@ -60,7 +60,7 @@ module.exports = {
 						loader: 'file-loader',
 						options: {
 							name: '[name].[ext]',
-							outputPath: 'fontsAwesome', // where the fonts will go
+							outputPath: 'fontsAwesome/', // where the fonts will go
 						},
 					},
 				],
