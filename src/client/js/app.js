@@ -1,5 +1,3 @@
-function greating() {
+(function () {
 	console.log('hello there');
-}
-
-export { greating };
+})();
