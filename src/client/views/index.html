@@ -6,13 +6,26 @@
 		<title>Treval App ✈️ 🌍</title>
 	</head>
 	<body>
-		<h1 id="h1">Treval App</h1>
-		<i class="fa fa-address-card gg"></i>
-		<br />
-		<i class="fa fa-2x fa-facebook"></i>
-		<i class="fas fa-address-book"></i>
+		<div class="wrapper">
+			<header>
+				<h1 id="h1">Treval App ✈️ 🌍</h1>
+			</header>
+			<section class="search-bar">
+				<label for="searchCity" name="searchCity"></label>
+				<input type="text" id="searchCity" placesholder="Search a city" />
+				<input type="date" id="trip-date" />
+				<button id="btn-search">
+					<i class="fas fa-map-marked-alt"></i> Add a trip
+				</button>
+			</section>
+			<section class="gg">
+				<i class="fa fa-address-card gg"></i>
+				<br />
+				<i class="fa fa-2x fa-facebook"></i>
+				<i class="fas fa-address-book"></i>
+			</section>
+		</div>
 
-		<input type="text" id="searchCity" placesholder="Search a city" />
 		<!--         
     <script>
         // Check that service workers are supported

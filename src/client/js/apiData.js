@@ -1,11 +1,15 @@
 const axios = require('axios');
+
 async function geonamesApi() {
 	const geonamesUrl =
-		'http://api.geonames.org/searchJSON?q=jeddah&maxRows=1&username=abdul2020';
+		'http://api.geonames.org/searchJSON?q=toronto&maxRows=1&username=abdul2020';
 	try {
 		const res = await axios.get(geonamesUrl);
-		// console.log(res);
-		const { lat, lng, countryName } = res.data.geonames[0];
+		const { lat, lng, countryName, name } = res.data.geonames[0];
+		// name === 'Toronto' ? console.log(true) : console.log(false);
+		// function to make sure the user enter a city name
+
+		// call nex api
 		weatherbitApi(lat, lng, countryName);
 	} catch (err) {
 		console.log(`${err} error GERONAME-API 🛑`);
@@ -13,10 +17,11 @@ async function geonamesApi() {
 }
 
 async function weatherbitApi(lat, lng, countryName) {
-	const waetherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&country=${countryName}&key=f1f6b2de665c4e3fb4aeed7502a046b9`;
+	const waetherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&country=${countryName}&key=${process.env.API_KEY_weather}`;
 	try {
 		const weatherData = await axios.get(waetherUrl);
-		console.log(weatherData);
+		// forecast for 16 days from the current date
+		// console.log(weatherData);
 		pixabayApi(countryName);
 	} catch (err) {
 		console.log(`${err} error WEATHERBITE-API 🛑`);
