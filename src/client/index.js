@@ -1,6 +1,4 @@
 import {} from './js/app';
-import { apiCalling } from './js/apiData.js';
-
 // styles
 import './style/assets.scss';
 

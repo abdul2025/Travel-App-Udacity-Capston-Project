@@ -6,11 +6,13 @@
 		<title>Treval App ✈️ 🌍</title>
 	</head>
 	<body>
-		<h1>Treval App</h1>
+		<h1 id="h1">Treval App</h1>
 		<i class="fa fa-address-card gg"></i>
 		<br />
 		<i class="fa fa-2x fa-facebook"></i>
 		<i class="fas fa-address-book"></i>
+
+		<input type="text" id="searchCity" placesholder="Search a city" />
 		<!--         
     <script>
         // Check that service workers are supported
@@ -20,6 +22,18 @@
                 navigator.serviceWorker.register('/service-worker.js');
             });
         }
-    </script> -->
+	</script> -->
+
+		<!-- Google autoComplate api -->
+		<script type="text/javascript">
+			function activatePlaceSearch() {
+				let input = document.getElementById('searchCity');
+				let autocomplete = new google.maps.places.Autocomplete(input);
+			}
+		</script>
+		<script
+			type="text/javascript"
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiKjehIUL_O5YuWsqhHZwdyHIqHTDXIYg&libraries=places&callback=activatePlaceSearch"
+		></script>
 	</body>
 </html>
