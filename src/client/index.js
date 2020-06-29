@@ -1,4 +1,7 @@
 import {} from './js/app';
+import { getKeys } from './js/apiData';
+
+getKeys();
 // styles
 import './style/assets.scss';
 

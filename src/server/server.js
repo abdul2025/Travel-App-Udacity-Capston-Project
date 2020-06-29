@@ -16,15 +16,21 @@ app.use(
 	})
 );
 
-const { API_USERNAME, API_KEY_weather, API_KEY_pix } = process.env;
-const keys = {
-	key: '11',
-};
-console.log(keys);
 app.use(express.static('dist'));
 
 const port = process.env.PORT || 3000;
 // designates what port the app will listen to for incoming requests
 app.listen(port, function () {
 	console.log(` app listening on port ${port}`);
+});
+
+// Get keys from Env
+const { API_USERNAME, API_KEY_weather, API_KEY_pix } = process.env;
+// Send keys to (FRONT_END)
+app.get('/keys', (req, res) => {
+	res.send({
+		API_KEY_weather,
+		API_KEY_pix,
+		API_USERNAME,
+	});
 });
