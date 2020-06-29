@@ -58,4 +58,16 @@ header {
 		border-radius: 3px;
 		line-height: 1.5em;
 	}
+	@media screen and (max-width: 550px) {
+		flex-wrap: wrap;
+		input {
+			width: 50%;
+		}
+		#trip-date {
+			width: 49%;
+		}
+		button {
+			width: 100%;
+		}
+	}
 }

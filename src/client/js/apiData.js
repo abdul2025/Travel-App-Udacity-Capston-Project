@@ -17,12 +17,12 @@ async function getKeys() {
 // API REQUESTS
 async function getApiKeys(geoKey, weatherKey, pixKey) {
 	async function geonamesApi() {
-		const geonamesUrl = `http://api.geonames.org/searchJSON?q=toronto&maxRows=1&username=${geoKey}`;
+		const geonamesUrl = `http://api.geonames.org/searchJSON?q=Jeddah&maxRows=1&username=${geoKey}`;
 		try {
 			const res = await axios.get(geonamesUrl);
 			const { lat, lng, countryName, name } = res.data.geonames[0];
-			// name === 'Toronto' ? console.log(true) : console.log(false);
-			// function to make sure the user enter a city name
+			name === 'Jeddah' ? console.log(true) : console.log(false);
+			// function to make sure the user enter a city name that existed
 
 			// call nex api
 			weatherbitApi(lat, lng, countryName);
@@ -36,7 +36,7 @@ async function getApiKeys(geoKey, weatherKey, pixKey) {
 		try {
 			const weatherData = await axios.get(waetherUrl);
 			// forecast for 16 days from the current date
-			// console.log(weatherData);
+			console.log(weatherData);
 			pixabayApi(countryName);
 		} catch (err) {
 			console.log(`${err} error WEATHERBITE-API 🛑`);
@@ -45,15 +45,14 @@ async function getApiKeys(geoKey, weatherKey, pixKey) {
 
 	async function pixabayApi(countryName) {
 		const pixabayUrl = `https://pixabay.com/api/?key=${pixKey}&q=${countryName} flag`;
-
 		try {
 			const image = await axios.get(pixabayUrl);
-			console.log(image);
+			// console.log(image);
 		} catch (err) {
 			console.log(`${err} error PIXABAY-API 🛑`);
 		}
 	}
-	geonamesApi();
+	// geonamesApi();
 }
 
 export { getApiKeys, getKeys };
