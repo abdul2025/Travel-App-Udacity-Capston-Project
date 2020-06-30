@@ -19,13 +19,151 @@ html {
 	display: grid;
 	grid-template-rows: 100px 100px 1fr;
 	gap: 20px;
+	z-index: 0;
 }
 header {
 	font-family: $font;
 	padding: 40px 0 0 10px;
-	h1 {
-		text-align: left;
-		margin-left: 10%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	.logo {
+		width: 50%;
+		h1 {
+			text-align: left;
+			margin-left: 10%;
+		}
+	}
+	.loging {
+		width: 50%;
+		display: flex;
+		justify-content: end;
+		margin-right: 10%;
+		button {
+			margin-left: 6px;
+			padding: 4px 15px;
+			border: 1px solid #003d72;
+			border-radius: 2px;
+			background-color: #3da4b5;
+			color: white;
+			font-size: 1em;
+			cursor: pointer;
+		}
+	}
+}
+
+@mixin media($max-width, $width, $left) {
+	@media screen and (max-width: $max-width) {
+		width: $width;
+		left: $left;
+	}
+}
+
+.sign-overlay {
+	display: none;
+	width: 100%;
+	z-index: 2;
+	height: 100%;
+	position: fixed;
+	background-color: #6581d61a;
+	.sign-container {
+		border-radius: 14px;
+		background-color: #e6e6e6;
+		width: 20%;
+		height: 30%;
+		position: relative;
+		top: 36%;
+		left: 38%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+
+		.sign-icon-user {
+			width: 100%;
+			font-size: 46px;
+			margin: 0 0 10px 0;
+		}
+
+		.sign-icon-close {
+			font-size: 28px;
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			cursor: pointer;
+			z-index: 5;
+		}
+
+		input,
+		button {
+			width: 65%;
+			padding: 10px;
+			margin: 2%;
+			border: 1px solid #388dae;
+			cursor: pointer;
+		}
+		button {
+			color: white;
+			background: #3da4b5;
+			border: 1px solid #0e1011;
+		}
+		@include media(1220px, 50%, 25%);
+		@include media(790px, 60%, 20%);
+		@include media(420px, 75%, 15%);
+	}
+}
+
+.loging-overlay {
+	display: none;
+	width: 100%;
+	z-index: 2;
+	height: 100%;
+	position: fixed;
+	background-color: #6581d61a;
+	.log-container {
+		border-radius: 14px;
+		background-color: #e6e6e6;
+		width: 20%;
+		height: 30%;
+		position: relative;
+		top: 36%;
+		left: 38%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		.login-icon-user {
+			width: 100%;
+			font-size: 46px;
+			margin: 0 0 10px 0;
+		}
+		.login-icon-close {
+			font-size: 28px;
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			cursor: pointer;
+		}
+
+		input,
+		button {
+			width: 65%;
+			padding: 10px;
+			margin: 2%;
+			border: 1px solid #388dae;
+			cursor: pointer;
+		}
+		button {
+			color: white;
+			background: #3da4b5;
+			border: 1px solid #0e1011;
+		}
+		@include media(1220px, 50%, 25%);
+		@include media(790px, 60%, 20%);
+		@include media(420px, 75%, 15%);
 	}
 }
 
@@ -34,6 +172,16 @@ header {
 	justify-content: center;
 	align-items: center;
 	padding: 0 14%;
+
+	.dateErrMesg {
+		position: absolute;
+		top: 92px;
+		padding: 5px;
+		background-color: #eff5ef;
+		border: 1px solid #d6d5d5;
+		border-radius: 3px;
+		color: red;
+	}
 	input {
 		font-family: $search-font;
 		padding: 9px;
@@ -68,6 +216,9 @@ header {
 		}
 		button {
 			width: 100%;
+		}
+		.log-container {
+			width: 40%;
 		}
 	}
 }

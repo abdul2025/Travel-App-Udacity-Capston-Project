@@ -3,17 +3,64 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			rel="stylesheet"
-			media="screen and (min-width: 520px)"
-			href="./style/phonescreen.scss"
-		/>
 		<title>Treval App ✈️ 🌍</title>
 	</head>
 	<body>
+		<div class="loging-overlay">
+			<div class="log-container">
+				<div class="login-icon-close" id="close-loging">
+					<i class="fas fa-times"></i>
+				</div>
+
+				<i class="fas fa-address-book login-icon-user"></i>
+				<label for="emial" name="emial"></label>
+				<input
+					type="email"
+					name="emial"
+					id="email"
+					placeholder="Enter your Email"
+				/>
+				<input
+					type="password"
+					name="login-password"
+					id="login-password"
+					placeholder="Enter your password"
+				/>
+				<button type="submit">Log In</button>
+			</div>
+		</div>
+		<div class="sign-overlay">
+			<div class="sign-container">
+				<div id="close-sign" class="sign-icon-close">
+					<i class="fas fa-times"></i>
+				</div>
+
+				<i class="fas fa-address-book sign-icon-user"></i>
+				<label for="emial" name="emial"></label>
+				<input
+					type="email"
+					name="emial"
+					id="email"
+					placeholder="Enter your Email"
+				/>
+				<input
+					type="password"
+					name="login-password"
+					id="login-password"
+					placeholder="Enter your password"
+				/>
+				<button type="submit">sign up</button>
+			</div>
+		</div>
 		<div class="wrapper">
-			<header>
-				<h1 id="h1">Treval App ✈️ 🌍</h1>
+			<header class="header">
+				<div class="logo">
+					<h1 id="h1">Treval App ✈️ 🌍</h1>
+				</div>
+				<div class="loging">
+					<button class="btn-loging">Log in</button>
+					<button class="btn-sign">sign in</button>
+				</div>
 			</header>
 			<section class="search-bar">
 				<label for="searchCity" name="searchCity"></label>
@@ -43,7 +90,7 @@
 	</script> -->
 
 		<!-- Google autoComplate api -->
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 			function activatePlaceSearch() {
 				let input = document.getElementById('searchCity');
 				let autocomplete = new google.maps.places.Autocomplete(input);
@@ -52,6 +99,6 @@
 		<script
 			type="text/javascript"
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiKjehIUL_O5YuWsqhHZwdyHIqHTDXIYg&libraries=places&callback=activatePlaceSearch"
-		></script>
+		></script> -->
 	</body>
 </html>

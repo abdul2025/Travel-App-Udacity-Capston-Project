@@ -1,6 +1,7 @@
 import {} from './js/app';
-import { getKeys } from './js/apiData';
+import { getKeys } from './js/createTrips';
 
+// get keys for API Requests
 getKeys();
 // styles
 import './style/assets.scss';

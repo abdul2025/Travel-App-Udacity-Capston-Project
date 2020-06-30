@@ -1,15 +1,39 @@
 (function () {
-	document.querySelector('#h1').addEventListener('click', function () {
-		this.style.color = 'red';
-		console.log(this);
-	});
-
 	const domObj = {
+		search_bar: document.querySelector('.search-bar'),
 		search_btn: document.getElementById('btn-search'),
 		search_city_input: document.getElementById('searchCity'),
 		trip_date_input: document.getElementById('trip-date'),
+		btn_loging: document.querySelector('.btn-loging'),
+		loging_overlay: document.querySelector('.loging-overlay'),
+		btn_sign: document.querySelector('.btn-sign'),
+		sign_overla: document.querySelector('.sign-overlay'),
+		close_sign: document.querySelector('#close-sign'),
+		close_login: document.querySelector('#close-loging'),
 	};
 
+	/// LOGING layout
+	function closeLayout(btn, layout, opened) {
+		btn.addEventListener('click', function () {
+			layout.style.display = 'none';
+			opened.style.backgroundColor = '#3da4b5';
+		});
+	}
+
+	closeLayout(domObj.close_sign, domObj.sign_overla, domObj.btn_sign);
+	closeLayout(domObj.close_login, domObj.loging_overlay, domObj.btn_loging);
+
+	function showLayout(btn, layout) {
+		btn.addEventListener('click', function () {
+			this.style.backgroundColor = '#25626c';
+			layout.style.display = 'block';
+		});
+	}
+
+	showLayout(domObj.btn_loging, domObj.loging_overlay);
+	showLayout(domObj.btn_sign, domObj.sign_overla);
+
+	// current date
 	function currentDate() {
 		let date, day, month, year, months;
 		date = new Date();
@@ -49,7 +73,7 @@
 		});
 
 		function verified() {
-			/// user year must be greater then  current year
+			/// user year must be greater then current year
 			if (curDate[0] <= userDates[0]) {
 				// user month must be equal or greater than current month
 				if (curDate[1] <= userDates[1]) {
@@ -64,6 +88,10 @@
 						return userInputs;
 					} else {
 						console.log('false day');
+						const dateErrMesg = document.createElement('div');
+						dateErrMesg.setAttribute('class', 'dateErrMesg');
+						dateErrMesg.innerHTML = 'Invalid date';
+						domObj.search_bar.insertAdjacentElement('afterbegin', dateErrMesg);
 					}
 				} else {
 					console.log('false MO');
