@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div class="loging-overlay">
-			<div class="log-container">
+			<form class="log-container">
 				<div class="login-icon-close" id="close-loging">
 					<i class="fas fa-times"></i>
 				</div>
@@ -17,7 +17,7 @@
 				<input
 					type="email"
 					name="emial"
-					id="email"
+					id="login-email"
 					placeholder="Enter your Email"
 				/>
 				<input
@@ -26,11 +26,11 @@
 					id="login-password"
 					placeholder="Enter your password"
 				/>
-				<button type="submit">Log In</button>
-			</div>
+				<button type="submit" id="log-in">Log In</button>
+			</form>
 		</div>
 		<div class="sign-overlay">
-			<div class="sign-container">
+			<form class="sign-container">
 				<div id="close-sign" class="sign-icon-close">
 					<i class="fas fa-times"></i>
 				</div>
@@ -40,17 +40,17 @@
 				<input
 					type="email"
 					name="emial"
-					id="email"
+					id="sing-email"
 					placeholder="Enter your Email"
 				/>
 				<input
 					type="password"
-					name="login-password"
-					id="login-password"
+					name="sing-password"
+					id="sing-password"
 					placeholder="Enter your password"
 				/>
-				<button type="submit">sign up</button>
-			</div>
+				<button type="submit" id="sing-up">Join</button>
+			</form>
 		</div>
 		<div class="wrapper">
 			<header class="header">
@@ -59,7 +59,7 @@
 				</div>
 				<div class="loging">
 					<button class="btn-loging">Log in</button>
-					<button class="btn-sign">sign in</button>
+					<button class="btn-sign">Join</button>
 				</div>
 			</header>
 			<section class="search-bar">

@@ -1,6 +1,8 @@
 import {} from './js/app';
 import { getKeys } from './js/createTrips';
 
+import { registerClient } from './js/regest';
+registerClient();
 // get keys for API Requests
 getKeys();
 // styles

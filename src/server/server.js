@@ -34,3 +34,10 @@ app.get('/keys', (req, res) => {
 		API_USERNAME,
 	});
 });
+
+app.post('/singup', (req, res) => {
+	console.log('got requests');
+	console.log(req.body);
+	res.send({ status: 200 });
+	res.status(200).end();
+});

@@ -12,17 +12,7 @@
 		close_login: document.querySelector('#close-loging'),
 	};
 
-	/// LOGING layout
-	function closeLayout(btn, layout, opened) {
-		btn.addEventListener('click', function () {
-			layout.style.display = 'none';
-			opened.style.backgroundColor = '#3da4b5';
-		});
-	}
-
-	closeLayout(domObj.close_sign, domObj.sign_overla, domObj.btn_sign);
-	closeLayout(domObj.close_login, domObj.loging_overlay, domObj.btn_loging);
-
+	/// LOGINGs layout
 	function showLayout(btn, layout) {
 		btn.addEventListener('click', function () {
 			this.style.backgroundColor = '#25626c';
@@ -32,6 +22,17 @@
 
 	showLayout(domObj.btn_loging, domObj.loging_overlay);
 	showLayout(domObj.btn_sign, domObj.sign_overla);
+
+	// close layout
+	function closeLayout(btn, layout, opened) {
+		btn.addEventListener('click', function () {
+			layout.style.display = 'none';
+			opened.style.backgroundColor = '#3da4b5';
+		});
+	}
+
+	closeLayout(domObj.close_sign, domObj.sign_overla, domObj.btn_sign);
+	closeLayout(domObj.close_login, domObj.loging_overlay, domObj.btn_loging);
 
 	// current date
 	function currentDate() {
@@ -103,5 +104,6 @@
 		const userInputs = verified();
 		console.log(userInputs);
 	}
+
 	domObj.search_btn.addEventListener('click', userInputsVerification);
 })();
