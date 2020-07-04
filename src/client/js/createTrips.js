@@ -1,5 +1,22 @@
 const axios = require('axios');
 
+class CreateTrips {
+	constructor(trips) {
+		this.trips = trips;
+	}
+
+	toString() {
+		return this.trips;
+	}
+}
+
+// const trip = new CreateTrips('jeddah');
+// console.log(trip.toString());
+
+function UserInputsCreateTrips(input) {
+	geonamesApi(input.cityName);
+}
+
 // Getting api keys form var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
 // then Fire other api functions to handle each api requests from their source
 async function getKeys() {
@@ -19,11 +36,12 @@ async function getKeys() {
 }
 
 // API REQUESTS
-async function geonamesApi() {
+async function geonamesApi(cityName) {
 	const { API_USERNAME } = await getKeys();
-	const geonamesUrl = `http://api.geonames.org/searchJSON?q=Jeddah&maxRows=1&username=${API_USERNAME}`;
+	const geonamesUrl = `http://api.geonames.org/searchJSON?q=${cityName}&maxRows=1&username=${API_USERNAME}`;
 	try {
 		const res = await axios.get(geonamesUrl);
+		console.log(res);
 		const { lat, lng, countryName, name } = res.data.geonames[0];
 		// function to make sure the user enter a city name that existed
 		// name === 'Jeddah' ? console.log(true) : console.log(false);
@@ -59,6 +77,5 @@ async function pixabayApi(city_name) {
 		console.log(`${err} error PIXABAY-API 🛑`);
 	}
 }
-// geonamesApi();
 
-export { getKeys };
+export { getKeys, UserInputsCreateTrips };

@@ -5,7 +5,7 @@ import { registerClient } from './js/regest';
 registerClient();
 // get keys for API Requests
 getKeys();
-// styles
+// stylesnpm
 import './style/assets.scss';
 
 /// font Awesome icons

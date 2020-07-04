@@ -12,7 +12,6 @@ function registerClient() {
 	const loginBar = document.querySelector('.loging');
 	const btn_loging = document.querySelector('.btn-loging');
 	const btn_singing = document.querySelector('.btn-sign');
-	console.log(btn_loging);
 
 	/// validate user Email address
 	function emailValidation(email) {

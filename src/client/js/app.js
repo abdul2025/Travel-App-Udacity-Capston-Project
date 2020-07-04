@@ -1,3 +1,4 @@
+import { UserInputsCreateTrips } from './createTrips';
 (function () {
 	const domObj = {
 		search_bar: document.querySelector('.search-bar'),
@@ -10,6 +11,7 @@
 		sign_overla: document.querySelector('.sign-overlay'),
 		close_sign: document.querySelector('#close-sign'),
 		close_login: document.querySelector('#close-loging'),
+		dateErrMesg: document.querySelector('.dateErrMesg'),
 	};
 
 	/// LOGINGs layout
@@ -73,6 +75,10 @@
 			userDates.push(Number(e));
 		});
 
+		function updateUIData() {
+			domObj.dateErrMesg.style.display = 'block';
+		}
+
 		function verified() {
 			/// user year must be greater then current year
 			if (curDate[0] <= userDates[0]) {
@@ -86,23 +92,22 @@
 							month: userDates[1],
 							day: userDates[2],
 						};
-						return userInputs;
+						domObj.dateErrMesg.style.display = 'none';
+						UserInputsCreateTrips(userInputs);
+						// return userInputs;
 					} else {
-						console.log('false day');
-						const dateErrMesg = document.createElement('div');
-						dateErrMesg.setAttribute('class', 'dateErrMesg');
-						dateErrMesg.innerHTML = 'Invalid date';
-						domObj.search_bar.insertAdjacentElement('afterbegin', dateErrMesg);
+						updateUIData();
 					}
 				} else {
 					console.log('false MO');
+					updateUIData();
 				}
 			} else {
 				console.log('false year');
+				updateUIData();
 			}
 		}
-		const userInputs = verified();
-		console.log(userInputs);
+		verified();
 	}
 
 	domObj.search_btn.addEventListener('click', userInputsVerification);
