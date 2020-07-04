@@ -20,7 +20,15 @@ function registerClient() {
 	}
 
 	// uodate UI
-	function updateUI(form, mess, emInput, pasInput, btn, time = 500) {
+	function updateUI(
+		form,
+		mess,
+		emInput,
+		pasInput,
+		btn,
+		time = 500,
+		display = 'none'
+	) {
 		btn.style.backgroundColor = '#3da4b5';
 		emInput.value = '';
 		pasInput.value = '';
@@ -32,7 +40,7 @@ function registerClient() {
 		setTimeout(() => {
 			success.innerHTML = ' ';
 			setTimeout(() => {
-				form.parentNode.style.display = 'none';
+				form.parentNode.style.display = display;
 			}, 520);
 		}, time);
 	}
@@ -56,7 +64,7 @@ function registerClient() {
 						singupPassword,
 						btn_singing
 					);
-					console.log(singUp);
+					// console.log(singUp);
 				} catch (err) {
 					console.log(`${err.message} from singup post method`);
 				}
@@ -82,18 +90,32 @@ function registerClient() {
 						return user.email === email;
 					}
 					const existed = result.find(emailExists);
+
 					if (existed !== undefined) {
-						const html = document.createElement('h4');
-						html.innerHTML = existed.email;
-						html.style.padding = '4px 0';
-						loginBar.insertAdjacentElement('afterbegin', html);
-						updateUI(
-							logForm,
-							'Successful',
-							loginEmail,
-							loginPassword,
-							btn_loging
-						);
+						if (existed.password === password) {
+							const html = document.createElement('h4');
+							html.innerHTML = existed.email;
+							html.style.padding = '4px 0';
+							loginBar.insertAdjacentElement('afterbegin', html);
+							updateUI(
+								logForm,
+								'Successful',
+								loginEmail,
+								loginPassword,
+								btn_loging
+							);
+						} else {
+							console.log('password');
+							updateUI(
+								logForm,
+								'Pleas try another password',
+								loginEmail,
+								loginPassword,
+								btn_loging,
+								2000,
+								'block'
+							);
+						}
 					} else {
 						updateUI(
 							logForm,

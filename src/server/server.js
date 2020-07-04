@@ -51,23 +51,19 @@ app.post('/singup', (req, res) => {
 	const body = req.body;
 	const user = {};
 	readUserRegistration().then((result) => {
-		if (body.email.match(result.email)) {
-			res.send({ message: 'user Email existed' }).end();
-		} else {
-			user['id'] = result.users.length + 1;
-			user['email'] = body.email;
-			user['password'] = body.password;
-			Object.assign(user, body);
-			result.users.push(user);
-			fs.writeFile(
-				'src/data/userRegister.json',
-				JSON.stringify(result, null, 2),
-				(err) => {
-					if (err) console.log(err);
-				}
-			);
-			res.send('added');
-		}
+		user['id'] = result.users.length + 1;
+		user['email'] = body.email;
+		user['password'] = body.password;
+		Object.assign(user, body);
+		result.users.push(user);
+		fs.writeFile(
+			'src/data/userRegister.json',
+			JSON.stringify(result, null, 2),
+			(err) => {
+				if (err) console.log(err);
+			}
+		);
+		res.send('added');
 	});
 });
 

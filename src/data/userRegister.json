@@ -1,47 +1,16 @@
 {
-	"status": "200",
-	"message": "Success",
-	"users": [
-		{
-			"id": 1,
-			"email": "gdsgsdg@gmail.com",
-			"password": "dsglkhjlkdsg"
-		},
-		{
-			"id": 2,
-			"email": "alik@gmail.com",
-			"password": "gdsgdsg"
-		},
-		{
-			"id": 3,
-			"email": "gdsgsdg@gmail.com",
-			"password": "gdsgsdgsdgsd"
-		},
-		{
-			"id": 4,
-			"email": "wahbi@gmail.com",
-			"password": "gdsgsdg"
-		},
-		{
-			"id": 5,
-			"email": "dfdfdf@gmail.com",
-			"password": "gdsgsdgs"
-		},
-		{
-			"id": 6,
-			"email": "wahbi@gmail.com",
-			"password": "dggddgsgds"
-		},
-
-		{
-			"id": 8,
-			"email": "fdsfdsf@gmail.com",
-			"password": "dfghjkdsg"
-		},
-		{
-			"id": 9,
-			"email": "gdsgsdg@gmail.com",
-			"password": "gdsgsdg"
-		}
-	]
+  "status": "200",
+  "message": "Success",
+  "users": [
+    {
+      "id": 1,
+      "email": "alik@gmail.com",
+      "password": "eeeeeeeee"
+    },
+    {
+      "id": 2,
+      "email": "wahbi@gmail.com",
+      "password": "qqqqqqq"
+    }
+  ]
 }
