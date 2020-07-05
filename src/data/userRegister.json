@@ -1,16 +1,11 @@
 {
-  "status": "200",
-  "message": "Success",
-  "users": [
-    {
-      "id": 1,
-      "email": "alik@gmail.com",
-      "password": "eeeeeeeee"
-    },
-    {
-      "id": 2,
-      "email": "wahbi@gmail.com",
-      "password": "qqqqqqq"
-    }
-  ]
+	"status": "200",
+	"message": "Success",
+	"users": [
+		{
+			"id": 1,
+			"email": "wahbi@gmail.com",
+			"password": "111111"
+		}
+	]
 }

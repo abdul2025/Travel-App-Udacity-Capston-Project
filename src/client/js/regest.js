@@ -57,13 +57,25 @@ function registerClient() {
 						email: email,
 						password: password,
 					});
-					updateUI(
-						singForm,
-						'successful',
-						singupEmail,
-						singupPassword,
-						btn_singing
-					);
+					console.log(singUp.data);
+					if (singUp.data == 'existed') {
+						updateUI(
+							singForm,
+							'Email already exists, login in please',
+							singupEmail,
+							singupPassword,
+							btn_singing,
+							2000
+						);
+					} else {
+						updateUI(
+							singForm,
+							'successful',
+							singupEmail,
+							singupPassword,
+							btn_singing
+						);
+					}
 					// console.log(singUp);
 				} catch (err) {
 					console.log(`${err.message} from singup post method`);
@@ -86,6 +98,7 @@ function registerClient() {
 				try {
 					const login = await axios.get('http://localhost:3000/login');
 					const result = login.data.users;
+					console.log(result);
 					function emailExists(user) {
 						return user.email === email;
 					}
