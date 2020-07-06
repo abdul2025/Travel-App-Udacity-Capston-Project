@@ -56,7 +56,8 @@ app.post('/singup', (req, res) => {
 			return users.email === email;
 		}
 		const existed = result.users.find(emailExists);
-		if (existed == 'undefined') {
+		console.log(existed);
+		if (existed == undefined) {
 			user['id'] = result.users.length + 1;
 			user['email'] = body.email;
 			user['password'] = body.password;

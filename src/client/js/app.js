@@ -1,4 +1,6 @@
 import { UserInputsCreateTrips } from './createTrips';
+import airlineImg from '../media/airline.jpg';
+
 (function () {
 	const domObj = {
 		search_bar: document.querySelector('.search-bar'),
@@ -12,7 +14,16 @@ import { UserInputsCreateTrips } from './createTrips';
 		close_sign: document.querySelector('#close-sign'),
 		close_login: document.querySelector('#close-loging'),
 		dateErrMesg: document.querySelector('.dateErrMesg'),
+		trip_container: document.querySelector('.trip-container'),
 	};
+
+	function destinationImg(img) {
+		const imgTag = document.createElement('img');
+		imgTag.src = `${img}`;
+		imgTag.alt = 'destination img';
+		domObj.trip_container.insertAdjacentElement('afterbegin', imgTag);
+	}
+	destinationImg(airlineImg);
 
 	/// LOGINGs layout
 	function showLayout(btn, layout) {
@@ -91,6 +102,7 @@ import { UserInputsCreateTrips } from './createTrips';
 							year: userDates[0],
 							month: userDates[1],
 							day: userDates[2],
+							curDate,
 						};
 						domObj.dateErrMesg.style.display = 'none';
 						UserInputsCreateTrips(userInputs);
