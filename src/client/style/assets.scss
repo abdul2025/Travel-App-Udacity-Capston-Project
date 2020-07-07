@@ -227,7 +227,7 @@ header {
 .trip-container {
 	display: grid;
 	background-color: #56afbe1c;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: auto 1fr;
 	margin-bottom: 2%;
 	padding: 10px;
 	gap: 9px;
@@ -236,7 +236,10 @@ header {
 		height: auto;
 		border-radius: 4px;
 		align-self: center;
+		max-width: 859px;
+		justify-self: center;
 	}
+
 	.trip-details {
 		background-color: #5662670a;
 		display: grid;

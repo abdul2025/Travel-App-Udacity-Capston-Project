@@ -1,11 +1,10 @@
 const axios = require('axios');
-
+// create new trip
 class CreateTrips {
 	constructor(trips) {
 		this.trip = trips;
 	}
 	// API REQUESTS
-
 	async geonamesApi() {
 		const { API_USERNAME } = await getKeys();
 		const geonamesUrl = `http://api.geonames.org/searchJSON?q=${this.trip.cityName}&maxRows=1&username=${API_USERNAME}`;
@@ -19,20 +18,20 @@ class CreateTrips {
 
 			// call nex api
 			this.weatherbitApi();
+			this.pixabayApi();
+			this.calculateTripTimings();
 		} catch (err) {
 			console.log(`${err} error GERONAME-API 🛑`);
 		}
 	}
 
 	async weatherbitApi() {
-		console.log(this.lat);
 		const { API_KEY_weather } = await getKeys();
 		const waetherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${this.lat}&lon=${this.lng}&country=${this.countryName}&key=${API_KEY_weather}`;
 		try {
 			const weatherData = await axios.get(waetherUrl);
 			// forecast for 16 days from the current date
 			const weatherForecastData = weatherData.data.data;
-			console.log(weatherForecastData);
 			/// random weather description
 			this.condition =
 				weatherForecastData[
@@ -40,7 +39,9 @@ class CreateTrips {
 				].weather.description;
 
 			this.avarageWeather(weatherForecastData);
-			this.pixabayApi();
+			return {
+				con: this.condition,
+			};
 		} catch (err) {
 			console.log(`${err} error WEATHERBITE-API 🛑`);
 		}
@@ -64,13 +65,27 @@ class CreateTrips {
 		try {
 			const image = await axios.get(pixabayUrl);
 			// taking the first img cuz of api returns the object inorder of download rate
+
 			this.img = image.data.hits[0].webformatURL;
 		} catch (err) {
 			console.log(`${err} error PIXABAY-API 🛑`);
 		}
 	}
-}
 
+	calculateTripTimings() {
+		let years = this.trip.year - this.trip.curDate[0];
+		let months = this.trip.month - this.trip.curDate[1];
+		let days = this.trip.day - this.trip.curDate[2];
+		if (years === 0 && months === 0 && days === 0) {
+			this.daysleftToDeparting = `you trip is today`;
+		} else {
+			this.daysleftToDeparting = `you trip is after ${years} year and ${months} months and ${days} days`;
+		}
+		this.departingDate = `${this.trip.year},${this.trip.month},${this.trip.day},`;
+	}
+}
+// recive user input and current date
+// call createTrip class
 function UserInputsCreateTrips(input) {
 	const trip = new CreateTrips(input);
 	trip.geonamesApi();
