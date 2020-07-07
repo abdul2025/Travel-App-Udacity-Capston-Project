@@ -1,95 +1,121 @@
 const axios = require('axios');
 // create new trip
 class CreateTrips {
-	constructor(trips) {
-		this.trip = trips;
+	constructor(
+		countryName,
+		cityName,
+		img,
+		weatherForecastData,
+		day,
+		month,
+		year,
+		curDate
+	) {
+		(this.countryName = countryName),
+			(this.cityName = cityName),
+			(this.img = img),
+			(this.weatherForecastData = weatherForecastData),
+			(this.day = day),
+			(this.month = month),
+			(this.year = year),
+			(this.curDate = curDate);
 	}
 	// API REQUESTS
-	async geonamesApi() {
-		const { API_USERNAME } = await getKeys();
-		const geonamesUrl = `http://api.geonames.org/searchJSON?q=${this.trip.cityName}&maxRows=1&username=${API_USERNAME}`;
-		try {
-			const res = await axios.get(geonamesUrl);
-			const { lat, lng, countryName, name } = res.data.geonames[0];
-			this.lat = lat;
-			this.lng = lng;
-			this.countryName = countryName;
-			this.cityName = name;
-
-			// call nex api
-			this.weatherbitApi();
-			this.pixabayApi();
-			this.calculateTripTimings();
-		} catch (err) {
-			console.log(`${err} error GERONAME-API 🛑`);
-		}
-	}
-
-	async weatherbitApi() {
-		const { API_KEY_weather } = await getKeys();
-		const waetherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${this.lat}&lon=${this.lng}&country=${this.countryName}&key=${API_KEY_weather}`;
-		try {
-			const weatherData = await axios.get(waetherUrl);
-			// forecast for 16 days from the current date
-			const weatherForecastData = weatherData.data.data;
-			/// random weather description
-			this.condition =
-				weatherForecastData[
-					Math.floor(Math.random() * weatherForecastData.length - 1)
-				].weather.description;
-
-			this.avarageWeather(weatherForecastData);
-			return {
-				con: this.condition,
-			};
-		} catch (err) {
-			console.log(`${err} error WEATHERBITE-API 🛑`);
-		}
-	}
 
 	// calculate avarage max and min temp weather
-	avarageWeather(weatherData) {
+	avarageWeather() {
 		let max = 0;
 		let min = 0;
-		weatherData.forEach((day) => {
+		this.weatherForecastData.forEach((day) => {
 			max += day.app_max_temp;
 			min += day.app_min_temp;
 		});
-		this.max_temp = Math.floor(max / weatherData.length);
-		this.min_temp = Math.floor(min / weatherData.length);
+		this.max_temp = Math.floor(max / this.weatherForecastData.length);
+		this.min_temp = Math.floor(min / this.weatherForecastData.length);
+		// random weather description
+		this.condition = this.weatherForecastData[
+			Math.floor(Math.random() * this.weatherForecastData.length - 1)
+		].weather.description;
 	}
-
-	async pixabayApi() {
-		const { API_KEY_pix } = await getKeys();
-		const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${this.trip.cityName}`;
-		try {
-			const image = await axios.get(pixabayUrl);
-			// taking the first img cuz of api returns the object inorder of download rate
-
-			this.img = image.data.hits[0].webformatURL;
-		} catch (err) {
-			console.log(`${err} error PIXABAY-API 🛑`);
-		}
-	}
-
 	calculateTripTimings() {
-		let years = this.trip.year - this.trip.curDate[0];
-		let months = this.trip.month - this.trip.curDate[1];
-		let days = this.trip.day - this.trip.curDate[2];
+		let years = this.year - this.curDate[0];
+		let months = this.month - this.curDate[1];
+		let days = this.day - this.curDate[2];
 		if (years === 0 && months === 0 && days === 0) {
 			this.daysleftToDeparting = `you trip is today`;
 		} else {
 			this.daysleftToDeparting = `you trip is after ${years} year and ${months} months and ${days} days`;
 		}
-		this.departingDate = `${this.trip.year},${this.trip.month},${this.trip.day},`;
+		this.departingDate = `${this.year},${this.month},${this.day},`;
+	}
+
+	updateUI() {
+		this.calculateTripTimings();
+		this.avarageWeather();
+		return {
+			city: this.cityName,
+			county: this.countryName,
+			daysleftToDeparting: this.daysleftToDeparting,
+			departingDate: this.departingDate,
+			image: this.img,
+			max_temp: this.max_temp,
+			min_temp: this.min_temp,
+			weatherCondition: this.condition,
+		};
 	}
 }
 // recive user input and current date
 // call createTrip class
 function UserInputsCreateTrips(input) {
-	const trip = new CreateTrips(input);
-	trip.geonamesApi();
-	console.log(trip);
+	async function geonamesApi() {
+		const { API_USERNAME } = await getKeys();
+		const geonamesUrl = `http://api.geonames.org/searchJSON?q=${input.cityName}&maxRows=1&username=${API_USERNAME}`;
+		try {
+			const res = await axios.get(geonamesUrl);
+			const { lat, lng, countryName, name } = res.data.geonames[0];
+
+			weatherbitApi(lat, lng, countryName, name);
+		} catch (err) {
+			console.log(`${err} error GERONAME-API 🛑`);
+		}
+	}
+
+	async function weatherbitApi(lat, lng, countryName, cityName) {
+		const { API_KEY_weather } = await getKeys();
+		const waetherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&country=${countryName}&key=${API_KEY_weather}`;
+		try {
+			const weatherData = await axios.get(waetherUrl);
+			// forecast for 16 days from the current date
+			const weatherForecastData = weatherData.data.data;
+			// console.log(weatherForecastData);
+			pixabayApi(countryName, cityName, weatherForecastData);
+		} catch (err) {
+			console.log(`${err} error WEATHERBITE-API 🛑`);
+		}
+	}
+	async function pixabayApi(countryName, cityName, weatherForecastData) {
+		const { API_KEY_pix } = await getKeys();
+		const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${cityName}`;
+		try {
+			const image = await axios.get(pixabayUrl);
+			// taking the first img cuz of api returns the object inorder of download rate
+			const img = image.data.hits[0].webformatURL;
+			const newTrip = new CreateTrips(
+				countryName,
+				cityName,
+				img,
+				weatherForecastData,
+				input.day,
+				input.month,
+				input.year,
+				input.curDate
+			);
+			const trip_Details = newTrip.updateUI();
+			console.log(trip_Details);
+		} catch (err) {
+			console.log(`${err} error PIXABAY-API 🛑`);
+		}
+	}
 }
 
 // Getting api keys form var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
@@ -108,6 +134,7 @@ async function getKeys() {
 			`${err} this from our 3000 node server requiring api for API KEYS`
 		);
 	}
+	geonamesApi();
 }
 
 export { getKeys, UserInputsCreateTrips };

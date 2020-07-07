@@ -54,23 +54,6 @@ import airlineImg from '../media/airline.jpg';
 		day = date.getDate();
 		month = date.getMonth();
 		year = date.getFullYear();
-		months = [
-			'Jan',
-			'Feb',
-			'Mar',
-			'Apr',
-			'May',
-			'Jun',
-			'Jul',
-			'Aug',
-			'Sep',
-			'Oct',
-			'Nov',
-			'Dec',
-		];
-		// let monthToString = () => {
-		// 	return months[month];
-		// };
 		return [year, month + 1, day];
 	}
 
