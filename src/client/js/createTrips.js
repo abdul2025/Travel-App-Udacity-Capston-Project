@@ -1,4 +1,5 @@
 const axios = require('axios');
+import defultImg from '../media/airline.jpg';
 // create new trip
 class CreateTrips {
 	constructor(
@@ -44,9 +45,9 @@ class CreateTrips {
 		if (years === 0 && months === 0 && days === 0) {
 			this.daysleftToDeparting = `you trip is today`;
 		} else {
-			this.daysleftToDeparting = `you trip is after ${years} year and ${months} months and ${days} days`;
+			this.daysleftToDeparting = ` ${years} year and ${months} months and ${days} days`;
 		}
-		this.departingDate = `${this.year},${this.month},${this.day},`;
+		this.departingDate = `${this.year}, ${this.month}, ${this.day}`;
 	}
 
 	updateUI() {
@@ -67,18 +68,21 @@ class CreateTrips {
 // recive user input and current date
 // call createTrip class
 function UserInputsCreateTrips(input) {
+	console.log(input);
+
 	async function geonamesApi() {
 		const { API_USERNAME } = await getKeys();
 		const geonamesUrl = `http://api.geonames.org/searchJSON?q=${input.cityName}&maxRows=1&username=${API_USERNAME}`;
 		try {
 			const res = await axios.get(geonamesUrl);
 			const { lat, lng, countryName, name } = res.data.geonames[0];
-
 			weatherbitApi(lat, lng, countryName, name);
 		} catch (err) {
 			console.log(`${err} error GERONAME-API 🛑`);
 		}
 	}
+
+	geonamesApi();
 
 	async function weatherbitApi(lat, lng, countryName, cityName) {
 		const { API_KEY_weather } = await getKeys();
@@ -111,11 +115,78 @@ function UserInputsCreateTrips(input) {
 				input.curDate
 			);
 			const trip_Details = newTrip.updateUI();
-			console.log(trip_Details);
+			// console.log(trip_Details);
+			updateUI(trip_Details);
 		} catch (err) {
 			console.log(`${err} error PIXABAY-API 🛑`);
 		}
 	}
+}
+let trip_key = 0;
+function updateUI(tripDetails) {
+	console.log(tripDetails);
+	const domObj = {
+		trip_destenation: document.querySelector('.trip-destenation'),
+		trip_departure: document.querySelector('.trip-departure'),
+		trip_leaving: document.querySelector('.trip-leaving'),
+		weather_temp: document.querySelector('.weather-temp'),
+		trip_destenation: document.querySelector('.trip-destenation'),
+		weather_condition: document.querySelector('.weather-condition'),
+		destination_img: document.querySelector('.destination-img'),
+		savedTrips_container: document.querySelector('.savedTrips_container'),
+	};
+	const destination = `Destination to : ${tripDetails.city}, ${tripDetails.county}`;
+	const departurtingDate = `Departurting Date : ${tripDetails.departingDate}`;
+	const daysleftToDeparting = `Your flight leaving after : ${tripDetails.daysleftToDeparting}`;
+	const weather_Temp = `Weather Temp : High: ${tripDetails.max_temp} °C / Low:${tripDetails.min_temp} °C`;
+	const condition = `Condition : ${tripDetails.weatherCondition}`;
+	const img = `${tripDetails.image}`;
+
+	console.log(tripDetails);
+	domObj.trip_destenation.textContent = `${destination}`;
+	domObj.trip_departure.textContent = `${departurtingDate}`;
+	domObj.trip_leaving.textContent = `${daysleftToDeparting}`;
+	domObj.weather_temp.textContent = ` ${weather_Temp}`;
+	domObj.weather_condition.textContent = `${condition}`;
+	domObj.destination_img.setAttribute('src', `${img}`);
+
+	/****************************************Saving trips*/
+	let tripExists = false;
+	function savingTrip(e) {
+		if (e.target.className === 'save_trip') {
+			if (!tripExists) {
+				trip_key++;
+				tripExists = true;
+				const htmlSavedTrip = `<div class="trip_content key${trip_key}">
+				<div class="savedImg">
+					<img src="${img}" alt="savedImg"/>
+				</div>
+				<div class="savedTripInfo">
+					<h6 class="saved_destin">${destination}</h6>
+					<h6 class="saved_deparDate">${departurtingDate}</h6>
+					<h6 class="saved_temp">${weather_Temp}</h6>
+					<h6 class="saved_weatherCond">${condition}</h6>
+					<button class="delateSavedTrip-btn">Delete</button>
+				</div>
+			</div>`;
+				domObj.savedTrips_container.insertAdjacentHTML(
+					'beforeend',
+					htmlSavedTrip
+				);
+			}
+		} else if (e.target.className === 'delate_trip') {
+			domObj.trip_destenation.textContent = ``;
+			domObj.trip_departure.textContent = ``;
+			domObj.trip_leaving.textContent = ``;
+			domObj.weather_temp.textContent = ``;
+			domObj.weather_condition.textContent = ``;
+			domObj.destination_img.setAttribute('src', `${defultImg}`);
+			tripExists = true;
+		}
+	}
+
+	const save_trip_btn = document.querySelector('.trip_btn');
+	save_trip_btn.addEventListener('click', savingTrip);
 }
 
 // Getting api keys form var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
@@ -134,7 +205,6 @@ async function getKeys() {
 			`${err} this from our 3000 node server requiring api for API KEYS`
 		);
 	}
-	geonamesApi();
 }
 
 export { getKeys, UserInputsCreateTrips };

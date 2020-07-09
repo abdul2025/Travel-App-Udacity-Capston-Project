@@ -21,6 +21,7 @@ import airlineImg from '../media/airline.jpg';
 		const imgTag = document.createElement('img');
 		imgTag.src = `${img}`;
 		imgTag.alt = 'destination img';
+		imgTag.setAttribute('class', 'destination-img');
 		domObj.trip_container.insertAdjacentElement('afterbegin', imgTag);
 	}
 	destinationImg(airlineImg);
@@ -89,6 +90,8 @@ import airlineImg from '../media/airline.jpg';
 						};
 						domObj.dateErrMesg.style.display = 'none';
 						UserInputsCreateTrips(userInputs);
+						domObj.search_city_input.value = '';
+						domObj.trip_date_input.value = '';
 						// return userInputs;
 					} else {
 						updateUIData();
