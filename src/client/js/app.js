@@ -17,6 +17,7 @@ import airlineImg from '../media/airline.jpg';
 		trip_container: document.querySelector('.trip-container'),
 	};
 
+	// defult_img
 	function destinationImg(img) {
 		const imgTag = document.createElement('img');
 		imgTag.src = `${img}`;
@@ -26,7 +27,7 @@ import airlineImg from '../media/airline.jpg';
 	}
 	destinationImg(airlineImg);
 
-	/// LOGINGs layout
+	///show up layout
 	function showLayout(btn, layout) {
 		btn.addEventListener('click', function () {
 			this.style.backgroundColor = '#25626c';
@@ -48,7 +49,7 @@ import airlineImg from '../media/airline.jpg';
 	closeLayout(domObj.close_sign, domObj.sign_overla, domObj.btn_sign);
 	closeLayout(domObj.close_login, domObj.loging_overlay, domObj.btn_loging);
 
-	// current date
+	// Get current date
 	function currentDate() {
 		let date, day, month, year, months;
 		date = new Date();
@@ -57,7 +58,7 @@ import airlineImg from '../media/airline.jpg';
 		year = date.getFullYear();
 		return [year, month + 1, day];
 	}
-
+	/**************************User inputs verifications*******************************/
 	function userInputsVerification() {
 		const curDate = currentDate();
 		const userCityInput = domObj.search_city_input.value;
@@ -70,17 +71,22 @@ import airlineImg from '../media/airline.jpg';
 			userDates.push(Number(e));
 		});
 
-		function updateUIData() {
+		function updateUIData(message) {
+			domObj.dateErrMesg.textContent = message;
 			domObj.dateErrMesg.style.display = 'block';
 		}
 
 		function verified() {
-			/// user year must be greater then current year
-			if (curDate[0] <= userDates[0]) {
+			/// user year must be greater then current year || a year more
+			if (curDate[0] == userDates[0] || curDate[0] + 1 >= userDates[0]) {
 				// user month must be equal or greater than current month
-				if (curDate[1] <= userDates[1]) {
+				if (curDate[1] <= userDates[1] || curDate[0] < userDates[0]) {
 					// user day must be equal or greater than current day if in the same month, ...
-					if (curDate[2] <= userDates[2] || curDate[1] < userDates[1]) {
+					if (
+						curDate[2] <= userDates[2] ||
+						curDate[1] < userDates[1] ||
+						curDate[0] < userDates[0]
+					) {
 						const userInputs = {
 							cityName,
 							year: userDates[0],
@@ -94,15 +100,16 @@ import airlineImg from '../media/airline.jpg';
 						domObj.trip_date_input.value = '';
 						// return userInputs;
 					} else {
-						updateUIData();
+						console.log('day false');
+						updateUIData('invalid Day');
 					}
 				} else {
 					console.log('false MO');
-					updateUIData();
+					updateUIData('invalid Month');
 				}
 			} else {
 				console.log('false year');
-				updateUIData();
+				updateUIData('invalid Year');
 			}
 		}
 		verified();

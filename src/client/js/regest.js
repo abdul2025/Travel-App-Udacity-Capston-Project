@@ -19,7 +19,7 @@ function registerClient() {
 		return emailRegex.test(email);
 	}
 
-	// uodate UI
+	/*********************** Upodate UI*****************************************/
 	function updateUI(
 		form,
 		mess,
@@ -45,7 +45,7 @@ function registerClient() {
 		}, time);
 	}
 
-	// add user email + password to REST API
+	// Add User email + password to our JSON API data
 	btn_sign.addEventListener('click', async (e) => {
 		e.preventDefault();
 		const email = singupEmail.value;

@@ -38,14 +38,24 @@ class CreateTrips {
 			Math.floor(Math.random() * this.weatherForecastData.length - 1)
 		].weather.description;
 	}
+
+	// calculate Trip dates
 	calculateTripTimings() {
 		let years = this.year - this.curDate[0];
 		let months = this.month - this.curDate[1];
 		let days = this.day - this.curDate[2];
+		const daysLeftInCurYear = (12 - this.curDate[1]) * 30 - this.curDate[2];
 		if (years === 0 && months === 0 && days === 0) {
 			this.daysleftToDeparting = `you trip is today`;
-		} else {
-			this.daysleftToDeparting = ` ${years} year and ${months} months and ${days} days`;
+		} else if (years === 0) {
+			/// days left in the same year
+			this.daysleftToDeparting = `${
+				(this.month - this.curDate[1]) * 30 - this.day + this.curDate[2]
+			} days`;
+		} else if (years === 1) {
+			this.daysleftToDeparting = ` ${
+				this.month * 30 - this.day + daysLeftInCurYear
+			} days`;
 		}
 		this.departingDate = `${this.year}, ${this.month}, ${this.day}`;
 	}
@@ -65,19 +75,35 @@ class CreateTrips {
 		};
 	}
 }
+
 // recive user input and current date
 // call createTrip class
 function UserInputsCreateTrips(input) {
 	console.log(input);
 
+	function updateUIAPIErr(message) {
+		const apiErrContainer = document.querySelector('.handleApiErrors-layout');
+		apiErrContainer.style.display = 'grid';
+		const erroMess = document.querySelector('.errorMessages');
+		erroMess.textContent = message;
+
+		const closeLayout = document.getElementById('close-apiErro');
+		closeLayout.addEventListener('click', () => {
+			console.log('clicked');
+			apiErrContainer.style.display = 'none';
+		});
+	}
+
+	/// API REQUESTS
 	async function geonamesApi() {
 		const { API_USERNAME } = await getKeys();
-		const geonamesUrl = `http://api.geonames.org/searchJSON?q=${input.cityName}&maxRows=1&username=${API_USERNAME}`;
 		try {
+			const geonamesUrl = `http://api.geonames.org/searchJSON?q=${input.cityName}&maxRows=1&username=${API_USERNAME}`;
 			const res = await axios.get(geonamesUrl);
 			const { lat, lng, countryName, name } = res.data.geonames[0];
 			weatherbitApi(lat, lng, countryName, name);
 		} catch (err) {
+			updateUIAPIErr(`${err} error GERONAME-API 🛑`);
 			console.log(`${err} error GERONAME-API 🛑`);
 		}
 	}
@@ -86,24 +112,26 @@ function UserInputsCreateTrips(input) {
 
 	async function weatherbitApi(lat, lng, countryName, cityName) {
 		const { API_KEY_weather } = await getKeys();
-		const waetherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&country=${countryName}&key=${API_KEY_weather}`;
 		try {
+			const waetherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&country=${countryName}&key=${API_KEY_weather}`;
 			const weatherData = await axios.get(waetherUrl);
 			// forecast for 16 days from the current date
 			const weatherForecastData = weatherData.data.data;
 			// console.log(weatherForecastData);
 			pixabayApi(countryName, cityName, weatherForecastData);
 		} catch (err) {
+			updateUIAPIErr(`${err} error WEATHERBITE-API 🛑`);
 			console.log(`${err} error WEATHERBITE-API 🛑`);
 		}
 	}
 	async function pixabayApi(countryName, cityName, weatherForecastData) {
 		const { API_KEY_pix } = await getKeys();
-		const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${cityName}`;
 		try {
+			const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${cityName}`;
 			const image = await axios.get(pixabayUrl);
 			// taking the first img cuz of api returns the object inorder of download rate
 			const img = image.data.hits[0].webformatURL;
+			/***********************Create TRIP*********************************************************/
 			const newTrip = new CreateTrips(
 				countryName,
 				cityName,
@@ -116,13 +144,17 @@ function UserInputsCreateTrips(input) {
 			);
 			const trip_Details = newTrip.updateUI();
 			// console.log(trip_Details);
+			/*******************Update UI********************************/
 			updateUI(trip_Details);
 		} catch (err) {
+			updateUIAPIErr(`${err} error PIXABAY-API 🛑`);
 			console.log(`${err} error PIXABAY-API 🛑`);
 		}
 	}
 }
+// add id to each trip //
 let trip_key = 0;
+//////*********************************Update UI adding trip, saving, deleting***************************************//
 function updateUI(tripDetails) {
 	console.log(tripDetails);
 	const domObj = {
@@ -134,6 +166,7 @@ function updateUI(tripDetails) {
 		weather_condition: document.querySelector('.weather-condition'),
 		destination_img: document.querySelector('.destination-img'),
 		savedTrips_container: document.querySelector('.savedTrips_container'),
+		save_trip_btn: document.querySelector('.trip_btn'),
 	};
 	const destination = `Destination to : ${tripDetails.city}, ${tripDetails.county}`;
 	const departurtingDate = `Departurting Date : ${tripDetails.departingDate}`;
@@ -150,7 +183,7 @@ function updateUI(tripDetails) {
 	domObj.weather_condition.textContent = `${condition}`;
 	domObj.destination_img.setAttribute('src', `${img}`);
 
-	/****************************************Saving trips*/
+	/****************************************Saving trips****************************************************/
 	let tripExists = false;
 	function savingTrip(e) {
 		if (e.target.className === 'save_trip') {
@@ -164,6 +197,7 @@ function updateUI(tripDetails) {
 				<div class="savedTripInfo">
 					<h6 class="saved_destin">${destination}</h6>
 					<h6 class="saved_deparDate">${departurtingDate}</h6>
+					<h6 class="saved_daysleft">${daysleftToDeparting}</h6>
 					<h6 class="saved_temp">${weather_Temp}</h6>
 					<h6 class="saved_weatherCond">${condition}</h6>
 					<button class="delateSavedTrip-btn">Delete</button>
@@ -174,6 +208,7 @@ function updateUI(tripDetails) {
 					htmlSavedTrip
 				);
 			}
+			/**********************************Deleting TRIPs****************************************************/
 		} else if (e.target.className === 'delate_trip') {
 			domObj.trip_destenation.textContent = ``;
 			domObj.trip_departure.textContent = ``;
@@ -185,12 +220,10 @@ function updateUI(tripDetails) {
 		}
 	}
 
-	const save_trip_btn = document.querySelector('.trip_btn');
-	save_trip_btn.addEventListener('click', savingTrip);
+	domObj.save_trip_btn.addEventListener('click', savingTrip);
 }
 
-// Getting api keys form var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
-// then Fire other api functions to handle each api requests from their source
+// Getting api keys from var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
 async function getKeys() {
 	try {
 		const keys = await axios.get('http://localhost:3000/keys');

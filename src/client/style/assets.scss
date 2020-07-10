@@ -369,3 +369,23 @@ header {
 		flex-direction: column;
 	}
 }
+
+.handleApiErrors-layout {
+	display: none;
+	width: 100%;
+	z-index: 2;
+	height: 100%;
+	position: fixed;
+	background-color: #222e528f;
+	justify-content: center;
+	align-content: center;
+	h3 {
+		font-size: 20px;
+		color: red;
+	}
+	.apiErr-icon-close {
+		font-size: 28px;
+		cursor: pointer;
+		z-index: 5;
+	}
+}
