@@ -82,9 +82,9 @@
 				<!-- <img src="../media/airline.jpg" alt="trip image" /> -->
 				<div class="trip-details">
 					<div class="trip-info">
-						<h3 class="trip-destenation">Destination to:</h3>
-						<h3 class="trip-departure">Departurting Date:</h3>
-						<h3 class="trip-leaving">Your flight leaving after:</h3>
+						<h3 class="trip-destenation"></h3>
+						<h3 class="trip-departure"></h3>
+						<h3 class="trip-leaving"></h3>
 					</div>
 					<div class="trip_btn">
 						<button class="save_trip">Save_trip</button>
@@ -92,8 +92,8 @@
 					</div>
 					<div class="trip_weather">
 						<h3 class="weather-des">Typical weather for then:</h3>
-						<h3 class="weather-temp">Weather Temp: High / Low(°C)</h3>
-						<h3 class="weather-condition">Condition:</h3>
+						<h3 class="weather-temp"></h3>
+						<h3 class="weather-condition"></h3>
 					</div>
 				</div>
 			</section>
@@ -115,7 +115,18 @@
 					</div> -->
 				</div>
 				<div class="toDoListApp">
-					list
+					<div class="app-container">
+						<button id="clear">
+							Clear list <i class="fas fa-trash-alt"></i>
+						</button>
+						<div class="inputs">
+							<input id="input" type="text" placeholder="Add New Tasks" />
+							<button id="add-btn" type="button">
+								<i class="fa fa-plus"></i>
+							</button>
+						</div>
+						<div id="list-container"></div>
+					</div>
 				</div>
 			</section>
 		</div>

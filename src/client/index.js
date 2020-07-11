@@ -1,11 +1,13 @@
 import {} from './js/app';
 import { getKeys } from './js/createTrips';
 import { registerClient } from './js/regest';
-
+import { displaySavedTripsLocalStorage } from './js/toLocalStorage';
 registerClient();
 // get keys for API Requests
 getKeys();
 // styles
+displaySavedTripsLocalStorage();
+
 import './style/assets.scss';
 
 /// font Awesome icons

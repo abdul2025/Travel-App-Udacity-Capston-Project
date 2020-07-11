@@ -1,5 +1,9 @@
 const axios = require('axios');
 import defultImg from '../media/airline.jpg';
+import {
+	saveTripToLocalStorage,
+	delateTripFromLocalStorage,
+} from './toLocalStorage';
 // create new trip
 class CreateTrips {
 	constructor(
@@ -72,6 +76,7 @@ class CreateTrips {
 			max_temp: this.max_temp,
 			min_temp: this.min_temp,
 			weatherCondition: this.condition,
+			bookedDate: `${this.curDate[0]}-${this.curDate[1]}-${this.curDate[2]}, ${this.curDate[3]}:${this.curDate[4]}:${this.curDate[5]}`,
 		};
 	}
 }
@@ -81,13 +86,13 @@ class CreateTrips {
 function UserInputsCreateTrips(input) {
 	console.log(input);
 
+	/************************************Handle API errors and followed functions**************************************************************************/
 	function updateUIAPIErr(message) {
 		const apiErrContainer = document.querySelector('.handleApiErrors-layout');
-		apiErrContainer.style.display = 'grid';
-		const erroMess = document.querySelector('.errorMessages');
-		erroMess.textContent = message;
-
 		const closeLayout = document.getElementById('close-apiErro');
+		const erroMess = document.querySelector('.errorMessages');
+		apiErrContainer.style.display = 'grid';
+		erroMess.textContent = message;
 		closeLayout.addEventListener('click', () => {
 			console.log('clicked');
 			apiErrContainer.style.display = 'none';
@@ -103,7 +108,7 @@ function UserInputsCreateTrips(input) {
 			const { lat, lng, countryName, name } = res.data.geonames[0];
 			weatherbitApi(lat, lng, countryName, name);
 		} catch (err) {
-			updateUIAPIErr(`${err} error GERONAME-API 🛑`);
+			updateUIAPIErr(`${err} error GERONAME-API 🛑, Please try again later`);
 			console.log(`${err} error GERONAME-API 🛑`);
 		}
 	}
@@ -120,7 +125,7 @@ function UserInputsCreateTrips(input) {
 			// console.log(weatherForecastData);
 			pixabayApi(countryName, cityName, weatherForecastData);
 		} catch (err) {
-			updateUIAPIErr(`${err} error WEATHERBITE-API 🛑`);
+			updateUIAPIErr(`${err} error WEATHERBITE-API 🛑, Please try again later`);
 			console.log(`${err} error WEATHERBITE-API 🛑`);
 		}
 	}
@@ -147,13 +152,13 @@ function UserInputsCreateTrips(input) {
 			/*******************Update UI********************************/
 			updateUI(trip_Details);
 		} catch (err) {
-			updateUIAPIErr(`${err} error PIXABAY-API 🛑`);
+			updateUIAPIErr(`${err} error PIXABAY-API 🛑, Please try again later`);
 			console.log(`${err} error PIXABAY-API 🛑`);
 		}
 	}
 }
 // add id to each trip //
-let trip_key = 0;
+let trip_key = localStorage.length;
 //////*********************************Update UI adding trip, saving, deleting***************************************//
 function updateUI(tripDetails) {
 	console.log(tripDetails);
@@ -167,6 +172,7 @@ function updateUI(tripDetails) {
 		destination_img: document.querySelector('.destination-img'),
 		savedTrips_container: document.querySelector('.savedTrips_container'),
 		save_trip_btn: document.querySelector('.trip_btn'),
+		delateSavedTrip: document.querySelector('.delateSavedTrip-btn'),
 	};
 	const destination = `Destination to : ${tripDetails.city}, ${tripDetails.county}`;
 	const departurtingDate = `Departurting Date : ${tripDetails.departingDate}`;
@@ -174,6 +180,7 @@ function updateUI(tripDetails) {
 	const weather_Temp = `Weather Temp : High: ${tripDetails.max_temp} °C / Low:${tripDetails.min_temp} °C`;
 	const condition = `Condition : ${tripDetails.weatherCondition}`;
 	const img = `${tripDetails.image}`;
+	const bookedDate = tripDetails.bookedDate;
 
 	console.log(tripDetails);
 	domObj.trip_destenation.textContent = `${destination}`;
@@ -185,13 +192,15 @@ function updateUI(tripDetails) {
 
 	/****************************************Saving trips****************************************************/
 	let tripExists = false;
+	let trips = [];
 	function savingTrip(e) {
 		if (e.target.className === 'save_trip') {
 			if (!tripExists) {
 				trip_key++;
 				tripExists = true;
-				const htmlSavedTrip = `<div class="trip_content key${trip_key}">
+				const htmlSavedTrip = `<div class="trip_content" id="${trip_key}">
 				<div class="savedImg">
+				<h4 class="booked date">Booked date : ${bookedDate}</h4>
 					<img src="${img}" alt="savedImg"/>
 				</div>
 				<div class="savedTripInfo">
@@ -207,8 +216,12 @@ function updateUI(tripDetails) {
 					'beforeend',
 					htmlSavedTrip
 				);
+				trips.push(htmlSavedTrip);
+				/*****************************Save trip to local storage by trip id************************************/
+				saveTripToLocalStorage(trips, trip_key);
 			}
-			/**********************************Deleting TRIPs****************************************************/
+
+			/**********************************Deleting None saved TRIPs****************************************************/
 		} else if (e.target.className === 'delate_trip') {
 			domObj.trip_destenation.textContent = ``;
 			domObj.trip_departure.textContent = ``;
@@ -222,6 +235,18 @@ function updateUI(tripDetails) {
 
 	domObj.save_trip_btn.addEventListener('click', savingTrip);
 }
+
+//// delete saved trips
+document
+	.querySelector('.savedTrips_container')
+	.addEventListener('click', (e) => {
+		if (e.target.className === 'delateSavedTrip-btn') {
+			e.target.parentNode.parentNode.remove();
+			console.log(e.target.parentNode.parentNode.id);
+			/*****************************Delete trip from local storage by trip id************************************/
+			delateTripFromLocalStorage(e.target.parentNode.parentNode.id);
+		}
+	});
 
 // Getting api keys from var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
 async function getKeys() {

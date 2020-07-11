@@ -51,12 +51,15 @@ import airlineImg from '../media/airline.jpg';
 
 	// Get current date
 	function currentDate() {
-		let date, day, month, year, months;
+		let date, day, month, year, months, hour, min, sec;
 		date = new Date();
 		day = date.getDate();
 		month = date.getMonth();
 		year = date.getFullYear();
-		return [year, month + 1, day];
+		hour = date.getHours();
+		min = date.getMinutes();
+		sec = date.getSeconds();
+		return [year, month + 1, day, hour, min, sec];
 	}
 	/**************************User inputs verifications*******************************/
 	function userInputsVerification() {
