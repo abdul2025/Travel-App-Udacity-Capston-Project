@@ -1,0 +1,204 @@
+@import 'assets.scss';
+header {
+	font-family: $family_font_header;
+	padding: 40px 0 0 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	.logo {
+		width: 50%;
+		h1 {
+			text-align: left;
+			margin-left: 10%;
+		}
+	}
+	.loging {
+		width: 50%;
+		display: flex;
+		justify-content: end;
+		margin-right: 10%;
+		button {
+			margin-left: 6px;
+			padding: 4px 15px;
+			border: 1px solid #003d72;
+			border-radius: 2px;
+			background-color: #3da4b5;
+			color: white;
+			font-size: 1em;
+			cursor: pointer;
+		}
+	}
+}
+
+@mixin mediaOverlay($max-width, $width, $left) {
+	@media screen and (max-width: $max-width) {
+		width: $width;
+		left: $left;
+	}
+}
+
+.sign-overlay {
+	display: none;
+	width: 100%;
+	z-index: 2;
+	height: 100%;
+	position: fixed;
+	background-color: #6581d61a;
+	.sign-container {
+		border-radius: 14px;
+		background-color: #e6e6e6;
+		width: 20%;
+		height: 30%;
+		position: relative;
+		top: 36%;
+		left: 38%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+
+		.sign-icon-user {
+			width: 100%;
+			font-size: 46px;
+			margin: 0 0 10px 0;
+		}
+
+		.sign-icon-close {
+			font-size: 28px;
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			cursor: pointer;
+			z-index: 5;
+		}
+
+		input,
+		button {
+			width: 65%;
+			padding: 10px;
+			margin: 2%;
+			border: 1px solid #388dae;
+			cursor: pointer;
+		}
+		button {
+			color: white;
+			background: #3da4b5;
+			border: 1px solid #0e1011;
+		}
+		@include mediaOverlay(1220px, 50%, 25%);
+		@include mediaOverlay(790px, 60%, 20%);
+		@include mediaOverlay(420px, 75%, 15%);
+	}
+}
+
+.loging-overlay {
+	display: none;
+	width: 100%;
+	z-index: 2;
+	height: 100%;
+	position: fixed;
+	background-color: #6581d61a;
+	.log-container {
+		border-radius: 14px;
+		background-color: #e6e6e6;
+		width: 20%;
+		height: 30%;
+		position: relative;
+		top: 36%;
+		left: 38%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		.login-icon-user {
+			width: 100%;
+			font-size: 46px;
+			margin: 0 0 10px 0;
+		}
+		.login-icon-close {
+			font-size: 28px;
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			cursor: pointer;
+		}
+
+		input,
+		button {
+			width: 65%;
+			padding: 10px;
+			margin: 2%;
+			border: 1px solid #388dae;
+			cursor: pointer;
+		}
+		button {
+			color: white;
+			background: #3da4b5;
+			border: 1px solid #0e1011;
+		}
+		@include mediaOverlay(1220px, 50%, 25%);
+		@include mediaOverlay(790px, 60%, 20%);
+		@include mediaOverlay(420px, 75%, 15%);
+	}
+}
+
+.search-bar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 14%;
+
+	.dateErrMesg {
+		position: absolute;
+		top: 92px;
+		padding: 5px;
+		background-color: #eff5ef;
+		border: 1px solid #d6d5d5;
+		border-radius: 3px;
+		color: red;
+		display: none;
+	}
+	input {
+		font-family: $search-font;
+		padding: 9px;
+		width: 40%;
+		border: 1px solid rgb(83, 121, 224);
+		border-radius: 3px;
+		font-size: 0.8em;
+		font-weight: bold;
+	}
+	#trip-date {
+		width: 30%;
+		margin-left: 0.2%;
+	}
+	button {
+		width: 30%;
+		padding: 6px;
+		border: 1px solid #5379e0;
+		background-color: #3da4b5;
+		color: white;
+		font-size: 1em;
+		margin-left: 0.3%;
+		cursor: pointer;
+		border-radius: 3px;
+		line-height: 1.5em;
+	}
+	@media screen and (max-width: 550px) {
+		flex-wrap: wrap;
+		input {
+			width: 50%;
+		}
+		#trip-date {
+			width: 49%;
+		}
+		button {
+			width: 100%;
+		}
+		.log-container {
+			width: 40%;
+		}
+	}
+}
