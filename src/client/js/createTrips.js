@@ -155,14 +155,14 @@ function UserInputsCreateTrips(input) {
 		try {
 			const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${cityName}`;
 			const image = await axios.get(pixabayUrl);
-			// verify pixabay has image for entered cityName (obscure location)
+			// verify pixabay has image for entered cityName (obscure location) ✅
 			// taking the first img cuz of api returns the object inorder of download rate
 			if (image.data.hits.length == 0) {
 				const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${countryName}`;
 				const image = await axios.get(pixabayUrl);
 				const img = image.data.hits[0].webformatURL;
 				// console.log(image);
-				/***********************Create TRIP*********************************************************/
+				/***********************Create TRIP************************************************/
 				restcountriesAPI(countryName, cityName, weatherForecastData, img);
 			} else {
 				const img = image.data.hits[0].webformatURL;
