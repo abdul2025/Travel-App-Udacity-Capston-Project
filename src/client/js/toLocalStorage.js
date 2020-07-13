@@ -1,6 +1,5 @@
 // Save, Delete, Show TRIPS
 function saveTripToLocalStorage(trip, key) {
-	console.log(trip);
 	localStorage.setItem(`trip-${key}`, JSON.stringify(trip));
 }
 

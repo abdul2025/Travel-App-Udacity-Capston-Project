@@ -1,7 +1,7 @@
 .trip-container {
 	display: grid;
 	background-color: #56afbe1c;
-	grid-template-columns: auto 1fr;
+	grid-template-columns: auto 1fr 1fr;
 	margin-bottom: 2%;
 	padding: 10px;
 	gap: 9px;
@@ -57,6 +57,21 @@
 			padding: 10px 0;
 		}
 	}
+
+	.country-Info {
+		background-color: #e7eeef;
+		display: grid;
+		line-height: 1.7;
+		align-items: center;
+		gap: 3;
+		color: #3a7e8a;
+		padding-left: 20px;
+		font-size: 1em;
+		.info {
+			justify-self: center;
+		}
+	}
+
 	@media screen and (max-width: 1100px) {
 		grid-template-columns: 1fr;
 		.trip-info {

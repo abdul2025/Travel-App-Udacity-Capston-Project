@@ -2,10 +2,8 @@ import {} from './js/app';
 import { getKeys } from './js/createTrips';
 import { registerClient } from './js/regest';
 import { displaySavedTripsLocalStorage } from './js/toLocalStorage';
-import { todo } from './js/toDoList';
+import {} from './js/toDoList';
 
-// To Do List App
-todo();
 //
 registerClient();
 // get keys for API Requests

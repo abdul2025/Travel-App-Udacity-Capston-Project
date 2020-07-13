@@ -5,6 +5,7 @@ import {
 	delateTripFromLocalStorage,
 } from './toLocalStorage';
 // create new trip
+
 class CreateTrips {
 	constructor(
 		countryName,
@@ -14,7 +15,13 @@ class CreateTrips {
 		day,
 		month,
 		year,
-		curDate
+		curDate,
+		subregion,
+		capital,
+		population,
+		timezones,
+		currencies,
+		cioc
 	) {
 		(this.countryName = countryName),
 			(this.cityName = cityName),
@@ -24,6 +31,12 @@ class CreateTrips {
 			(this.month = month),
 			(this.year = year),
 			(this.curDate = curDate);
+		this.subregion = subregion;
+		this.capital = capital;
+		this.population = population;
+		this.timezones = timezones;
+		this.currencies = currencies;
+		this.cioc = cioc;
 	}
 	// API REQUESTS
 
@@ -54,7 +67,7 @@ class CreateTrips {
 		} else if (years === 0) {
 			/// days left in the same year
 			this.daysleftToDeparting = `${
-				(this.month - this.curDate[1]) * 30 - this.day + this.curDate[2]
+				(this.month - this.curDate[1]) * 30 + this.day - this.curDate[2]
 			} days`;
 		} else if (years === 1) {
 			this.daysleftToDeparting = ` ${
@@ -77,6 +90,12 @@ class CreateTrips {
 			min_temp: this.min_temp,
 			weatherCondition: this.condition,
 			bookedDate: `${this.curDate[0]}-${this.curDate[1]}-${this.curDate[2]}, ${this.curDate[3]}:${this.curDate[4]}:${this.curDate[5]}`,
+			subregion: this.subregion,
+			capital: this.capital,
+			population: this.population,
+			timezones: this.timezones,
+			currencies: this.currencies,
+			cioc: this.cioc,
 		};
 	}
 }
@@ -108,7 +127,7 @@ function UserInputsCreateTrips(input) {
 			const { lat, lng, countryName, name } = res.data.geonames[0];
 			weatherbitApi(lat, lng, countryName, name);
 		} catch (err) {
-			updateUIAPIErr(`${err} error GERONAME-API 🛑, Please try again later`);
+			updateUIAPIErr(`${err} error GERONAME-API 🛑, Please try again OR later`);
 			console.log(`${err} error GERONAME-API 🛑`);
 		}
 	}
@@ -125,7 +144,9 @@ function UserInputsCreateTrips(input) {
 			// console.log(weatherForecastData);
 			pixabayApi(countryName, cityName, weatherForecastData);
 		} catch (err) {
-			updateUIAPIErr(`${err} error WEATHERBITE-API 🛑, Please try again later`);
+			updateUIAPIErr(
+				`${err} error WEATHERBITE-API 🛑, Please try again OR later`
+			);
 			console.log(`${err} error WEATHERBITE-API 🛑`);
 		}
 	}
@@ -134,8 +155,36 @@ function UserInputsCreateTrips(input) {
 		try {
 			const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${cityName}`;
 			const image = await axios.get(pixabayUrl);
+			// verify pixabay has image for entered cityName (obscure location)
 			// taking the first img cuz of api returns the object inorder of download rate
-			const img = image.data.hits[0].webformatURL;
+			if (image.data.hits.length == 0) {
+				const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${countryName}`;
+				const image = await axios.get(pixabayUrl);
+				const img = image.data.hits[0].webformatURL;
+				// console.log(image);
+				/***********************Create TRIP*********************************************************/
+				restcountriesAPI(countryName, cityName, weatherForecastData, img);
+			} else {
+				const img = image.data.hits[0].webformatURL;
+				restcountriesAPI(countryName, cityName, weatherForecastData, img);
+			}
+		} catch (err) {
+			updateUIAPIErr(`${err} error PIXABAY-API 🛑, Please try again OR later`);
+			console.log(`${err} error PIXABAY-API 🛑`);
+		}
+	}
+	async function restcountriesAPI(
+		countryName,
+		cityName,
+		weatherForecastData,
+		img
+	) {
+		try {
+			const response = await axios.get(
+				`https://restcountries.eu/rest/v2/name/${countryName}`
+			);
+			const restcountriesDate = response.data[0];
+			console.log(restcountriesDate);
 			/***********************Create TRIP*********************************************************/
 			const newTrip = new CreateTrips(
 				countryName,
@@ -145,18 +194,24 @@ function UserInputsCreateTrips(input) {
 				input.day,
 				input.month,
 				input.year,
-				input.curDate
+				input.curDate,
+				restcountriesDate.subregion,
+				restcountriesDate.capital,
+				restcountriesDate.population,
+				restcountriesDate.timezones[0],
+				restcountriesDate.currencies[0]['name'],
+				restcountriesDate.cioc
 			);
 			const trip_Details = newTrip.updateUI();
-			// console.log(trip_Details);
 			/*******************Update UI********************************/
 			updateUI(trip_Details);
 		} catch (err) {
-			updateUIAPIErr(`${err} error PIXABAY-API 🛑, Please try again later`);
-			console.log(`${err} error PIXABAY-API 🛑`);
+			console.log(`${err} from RestCountries`);
+			updateUIAPIErr(`${err} error PIXABAY-API 🛑, Please try again OR later`);
 		}
 	}
 }
+
 // add id to each trip //
 let trip_key = localStorage.length;
 //////*********************************Update UI adding trip, saving, deleting***************************************//
@@ -172,7 +227,12 @@ function updateUI(tripDetails) {
 		destination_img: document.querySelector('.destination-img'),
 		savedTrips_container: document.querySelector('.savedTrips_container'),
 		save_trip_btn: document.querySelector('.trip_btn'),
-		delateSavedTrip: document.querySelector('.delateSavedTrip-btn'),
+		subregion: document.querySelector('.subregion'),
+		capital: document.querySelector('.capital'),
+		population: document.querySelector('.population'),
+		timezones: document.querySelector('.timezones'),
+		currencies: document.querySelector('.currencies'),
+		cioc: document.querySelector('.cioc'),
 	};
 	const destination = `Destination to : ${tripDetails.city}, ${tripDetails.county}`;
 	const departurtingDate = `Departurting Date : ${tripDetails.departingDate}`;
@@ -182,15 +242,21 @@ function updateUI(tripDetails) {
 	const img = `${tripDetails.image}`;
 	const bookedDate = tripDetails.bookedDate;
 
-	console.log(tripDetails);
+	// console.log(tripDetails);
 	domObj.trip_destenation.textContent = `${destination}`;
 	domObj.trip_departure.textContent = `${departurtingDate}`;
 	domObj.trip_leaving.textContent = `${daysleftToDeparting}`;
 	domObj.weather_temp.textContent = ` ${weather_Temp}`;
 	domObj.weather_condition.textContent = `${condition}`;
 	domObj.destination_img.setAttribute('src', `${img}`);
+	domObj.subregion.textContent = `Subregion: ${tripDetails.subregion}`;
+	domObj.capital.textContent = `Capital: ${tripDetails.capital}`;
+	domObj.population.textContent = `Population: ${tripDetails.population}`;
+	domObj.timezones.textContent = `Timezone: ${tripDetails.timezones}`;
+	domObj.currencies.textContent = `Currencie: ${tripDetails.currencies}`;
+	domObj.cioc.textContent = `Cioc: ${tripDetails.cioc}`;
 
-	/****************************************Saving trips****************************************************/
+	/****************************************Saving trips*************************************/
 	let tripExists = false;
 	let trips = [];
 	function savingTrip(e) {
@@ -213,7 +279,7 @@ function updateUI(tripDetails) {
 				</div>
 			</div>`;
 				domObj.savedTrips_container.insertAdjacentHTML(
-					'beforeend',
+					'afterbegin',
 					htmlSavedTrip
 				);
 				trips.push(htmlSavedTrip);
@@ -229,6 +295,12 @@ function updateUI(tripDetails) {
 			domObj.weather_temp.textContent = ``;
 			domObj.weather_condition.textContent = ``;
 			domObj.destination_img.setAttribute('src', `${defultImg}`);
+			domObj.subregion.textContent = ``;
+			domObj.subregion.textContent = ``;
+			domObj.subregion.textContent = ``;
+			domObj.subregion.textContent = ``;
+			domObj.subregion.textContent = ``;
+			domObj.subregion.textContent = ``;
 			tripExists = true;
 		}
 	}

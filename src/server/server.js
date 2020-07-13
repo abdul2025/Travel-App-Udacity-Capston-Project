@@ -5,6 +5,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const app = express();
 const fs = require('fs');
+const axios = require('axios');
 
 dotenv.config();
 app.use(cors());
@@ -84,3 +85,13 @@ app.get('/login', (req, res) => {
 		res.send(result);
 	});
 });
+// app.get('/countyInfo', async (req, res) => {
+// 	try {
+// 		const url = 'https://restcountries.eu/rest/v2/name/saudi';
+// 		const restcountries = await axios.get(url);
+// 		res.send(restcountries);
+// 	} catch (err) {
+// 		console.log(`${err} from the REST country`);
+// 		res.send({ mess: 'error' });
+// 	}
+// });

@@ -13,18 +13,23 @@
 				</div>
 
 				<i class="fas fa-address-book login-icon-user"></i>
-				<label for="emial" name="emial"></label>
+				<label for="login-email"></label>
 				<input
 					type="email"
-					name="emial"
+					name="login-email"
 					id="login-email"
 					placeholder="Enter your Email"
+					required
 				/>
+				<label for="login-password"></label>
 				<input
 					type="password"
 					name="login-password"
 					id="login-password"
 					placeholder="Enter your password"
+					required
+					min="6"
+					max="16"
 				/>
 				<button type="submit" id="log-in">Log In</button>
 			</form>
@@ -36,18 +41,23 @@
 				</div>
 
 				<i class="fas fa-address-book sign-icon-user"></i>
-				<label for="emial" name="emial"></label>
+				<label for="sing-email"></label>
 				<input
 					type="email"
-					name="emial"
+					name="sing-email"
 					id="sing-email"
 					placeholder="Enter your Email"
+					required
 				/>
+				<label for="sing-password"></label>
 				<input
 					type="password"
 					name="sing-password"
 					id="sing-password"
 					placeholder="Enter your password"
+					required
+					min="6"
+					max="16"
 				/>
 				<button type="submit" id="sing-up">Join</button>
 			</form>
@@ -70,9 +80,15 @@
 			</header>
 			<section class="search-bar">
 				<div class="dateErrMesg">invalid date</div>
-				<label for="searchCity" name="searchCity"></label>
-				<input type="text" id="searchCity" placesholder="Search a city" />
-				<input type="date" id="trip-date" />
+				<label for="searchCity"></label>
+				<input
+					type="text"
+					id="searchCity"
+					name="searchCity"
+					placesholder="Search a city"
+				/>
+				<label for="trip-date"></label>
+				<input type="date" id="trip-date" name="trip-date" />
 				<button id="btn-search">
 					<i class="fas fa-map-marked-alt"></i> Add a trip
 				</button>
@@ -95,6 +111,15 @@
 						<h3 class="weather-temp"></h3>
 						<h3 class="weather-condition"></h3>
 					</div>
+				</div>
+				<div class="country-Info">
+					<h3 class="info">More info about country</h3>
+					<h3 class="subregion"></h3>
+					<h3 class="capital"></h3>
+					<h3 class="population"></h3>
+					<h3 class="timezones"></h3>
+					<h3 class="currencies"></h3>
+					<h3 class="cioc"></h3>
 				</div>
 			</section>
 			<div class="titles">

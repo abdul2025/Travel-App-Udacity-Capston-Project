@@ -109,7 +109,7 @@ function registerClient() {
 							const html = document.createElement('h4');
 							html.innerHTML = existed.email;
 							html.style.padding = '4px 0';
-							loginBar.insertAdjacentElement('afterbegin', html);
+							loginBar.textContent = existed.email;
 							updateUI(
 								logForm,
 								'Successful',

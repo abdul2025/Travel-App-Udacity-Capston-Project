@@ -32,6 +32,17 @@
 					color: #4a6496;
 					padding: 6px 0px;
 				}
+
+				@media screen and (max-width: 420px) {
+					img {
+						width: 80%;
+						height: 60%;
+					}
+					h4 {
+						padding: 18px 0;
+						font-size: 12px;
+					}
+				}
 			}
 
 			.savedTripInfo {
@@ -57,11 +68,15 @@
 					}
 				}
 			}
-			// @media screen and (max-width: 820px) {
-			// 	flex-direction: column;
-			// 	justify-content: center;
-			// 	height: 545px;
-			// }
+			@media screen and (max-width: 420px) {
+				.savedTripInfo {
+					font-size: 16px;
+					line-height: 1.5;
+				}
+			}
+		}
+		@media screen and (max-width: 420px) {
+			grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
 		}
 	}
 	.toDoListApp {
