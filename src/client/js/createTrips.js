@@ -1,47 +1,34 @@
-const axios = require('axios');
-import defultImg from '../media/airline.jpg';
+import deImg from '../media/airline.jpg';
 import {
 	saveTripToLocalStorage,
 	delateTripFromLocalStorage,
 } from './toLocalStorage';
+const axios = require('axios');
 // create new trip
 
 class CreateTrips {
-	constructor(
-		countryName,
-		cityName,
-		img,
-		weatherForecastData,
-		day,
-		month,
-		year,
-		curDate,
-		subregion,
-		capital,
-		population,
-		timezones,
-		currencies,
-		cioc
-	) {
-		(this.countryName = countryName),
-			(this.cityName = cityName),
-			(this.img = img),
-			(this.weatherForecastData = weatherForecastData),
-			(this.day = day),
-			(this.month = month),
-			(this.year = year),
-			(this.curDate = curDate);
-		this.subregion = subregion;
-		this.capital = capital;
-		this.population = population;
-		this.timezones = timezones;
-		this.currencies = currencies;
-		this.cioc = cioc;
+	constructor() {
+		this.arg = arguments;
+		this.countryName = this.arg[0];
+		this.cityName = this.arg[1];
+		this.img = this.arg[2];
+		this.weatherForecastData = this.arg[3];
+		this.day = this.arg[4];
+		this.month = this.arg[5];
+		this.year = this.arg[6];
+		this.curDate = this.arg[7];
+		this.subregion = this.arg[8];
+		this.capital = this.arg[9];
+		this.population = this.arg[10];
+		this.timezones = this.arg[11];
+		this.currencies = this.arg[12];
+		this.cioc = this.arg[13];
 	}
 	// API REQUESTS
 
 	// calculate avarage max and min temp weather
 	avarageWeather() {
+		console.log(this.arg);
 		let max = 0;
 		let min = 0;
 		this.weatherForecastData.forEach((day) => {
@@ -294,13 +281,13 @@ function updateUI(tripDetails) {
 			domObj.trip_leaving.textContent = ``;
 			domObj.weather_temp.textContent = ``;
 			domObj.weather_condition.textContent = ``;
-			domObj.destination_img.setAttribute('src', `${defultImg}`);
+			domObj.destination_img.setAttribute('src', `${deImg}`);
 			domObj.subregion.textContent = ``;
-			domObj.subregion.textContent = ``;
-			domObj.subregion.textContent = ``;
-			domObj.subregion.textContent = ``;
-			domObj.subregion.textContent = ``;
-			domObj.subregion.textContent = ``;
+			domObj.capital.textContent = ``;
+			domObj.population.textContent = ``;
+			domObj.timezones.textContent = ``;
+			domObj.currencies.textContent = ``;
+			domObj.cioc.textContent = ``;
 			tripExists = true;
 		}
 	}
@@ -314,7 +301,7 @@ document
 	.addEventListener('click', (e) => {
 		if (e.target.className === 'delateSavedTrip-btn') {
 			e.target.parentNode.parentNode.remove();
-			console.log(e.target.parentNode.parentNode.id);
+			// console.log(e.target.parentNode.parentNode.id);
 			/*****************************Delete trip from local storage by trip id************************************/
 			delateTripFromLocalStorage(e.target.parentNode.parentNode.id);
 		}
@@ -325,6 +312,7 @@ async function getKeys() {
 	try {
 		const keys = await axios.get('http://localhost:3000/keys');
 		const { API_KEY_pix, API_KEY_weather, API_USERNAME } = keys.data;
+
 		return {
 			API_KEY_pix,
 			API_KEY_weather,

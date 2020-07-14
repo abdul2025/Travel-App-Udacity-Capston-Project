@@ -5,7 +5,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const app = express();
 const fs = require('fs');
-const axios = require('axios');
 
 dotenv.config();
 app.use(cors());
@@ -27,17 +26,21 @@ app.listen(port, function () {
 });
 
 // Get keys from Env
-const { API_USERNAME, API_KEY_weather, API_KEY_pix } = process.env;
-// Send keys to (FRONT_END)
-app.get('/keys', (req, res) => {
-	res.send({
+function apiKeys() {
+	const { API_USERNAME, API_KEY_weather, API_KEY_pix } = process.env;
+	return {
+		API_USERNAME,
 		API_KEY_weather,
 		API_KEY_pix,
-		API_USERNAME,
-	});
+	};
+}
+// Send keys to (FRONT_END)
+app.get('/keys', (req, res) => {
+	const keys = apiKeys();
+	res.send(keys);
 });
 // read user email and password
-function readUserRegistration() {
+const readUserRegistration = () => {
 	return new Promise((resolve, reject) => {
 		fs.readFile('src/data/userRegister.json', (err, data) => {
 			if (err) return reject(err);
@@ -45,7 +48,7 @@ function readUserRegistration() {
 			resolve(result);
 		});
 	});
-}
+};
 // add email and password to data
 app.post('/singup', (req, res) => {
 	console.log('got requests singup');
@@ -85,13 +88,4 @@ app.get('/login', (req, res) => {
 		res.send(result);
 	});
 });
-// app.get('/countyInfo', async (req, res) => {
-// 	try {
-// 		const url = 'https://restcountries.eu/rest/v2/name/saudi';
-// 		const restcountries = await axios.get(url);
-// 		res.send(restcountries);
-// 	} catch (err) {
-// 		console.log(`${err} from the REST country`);
-// 		res.send({ mess: 'error' });
-// 	}
-// });
+module.exports = { apiKeys };

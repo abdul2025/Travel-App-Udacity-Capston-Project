@@ -1,7 +1,7 @@
 .trip-container {
 	display: grid;
 	background-color: #56afbe1c;
-	grid-template-columns: auto 1fr 1fr;
+	grid-template-columns: repeat(3, 1fr);
 	margin-bottom: 2%;
 	padding: 10px;
 	gap: 9px;
