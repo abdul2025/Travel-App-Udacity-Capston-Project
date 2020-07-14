@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin'); // to minify css files
 const TerserPlugin = require('terser-webpack-plugin'); // to minify js file
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // to minify html files
-// const WorkboxPlugin = require('workbox-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
 	entry: './src/client/index.js',
