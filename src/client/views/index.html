@@ -156,19 +156,18 @@
 			</section>
 		</div>
 
-		<!--         
-    <script>
-        // Check that service workers are supported
-        if ('serviceWorker' in navigator) {
-            // Use the window load event to keep the page load performant
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js');
-            });
-        }
-	</script> -->
+		<script>
+			// Check that service workers are supported
+			if ('serviceWorker' in navigator) {
+				// Use the window load event to keep the page load performant
+				window.addEventListener('load', () => {
+					navigator.serviceWorker.register('/service-worker.js');
+				});
+			}
+		</script>
 
 		<!-- Google autoComplate api -->
-		<!-- <script type="text/javascript">
+		<script type="text/javascript">
 			function activatePlaceSearch() {
 				let input = document.getElementById('searchCity');
 				let autocomplete = new google.maps.places.Autocomplete(input);
@@ -177,6 +176,6 @@
 		<script
 			type="text/javascript"
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiKjehIUL_O5YuWsqhHZwdyHIqHTDXIYg&libraries=places&callback=activatePlaceSearch"
-		></script> -->
+		></script>
 	</body>
 </html>
