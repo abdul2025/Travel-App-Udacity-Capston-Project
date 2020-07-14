@@ -17,12 +17,16 @@ app.use(
 	})
 );
 
-app.use(express.static('dist'));
+app.use(express.static(path.join(process.cwd(), './dist')));
 
 const port = process.env.PORT || 3000;
 // designates what port the app will listen to for incoming requests
 app.listen(port, function () {
 	console.log(` app listening on port ${port}`);
+});
+
+app.get('/', function (req, res) {
+	res.sendFile(path.join(process.cwd(), '/dist/index.html'));
 });
 
 // Get keys from Env
