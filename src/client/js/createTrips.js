@@ -109,7 +109,7 @@ function UserInputsCreateTrips(input) {
 	async function geonamesApi() {
 		const { API_USERNAME } = await getKeys();
 		try {
-			const geonamesUrl = `http://api.geonames.org/searchJSON?q=${input.cityName}&maxRows=1&username=${API_USERNAME}`;
+			const geonamesUrl = `//www.api.geonames.org/searchJSON?q=${input.cityName}&maxRows=1&username=${API_USERNAME}`;
 			const res = await axios.get(geonamesUrl);
 			const { lat, lng, countryName, name } = res.data.geonames[0];
 			weatherbitApi(lat, lng, countryName, name);
@@ -124,7 +124,7 @@ function UserInputsCreateTrips(input) {
 	async function weatherbitApi(lat, lng, countryName, cityName) {
 		const { API_KEY_weather } = await getKeys();
 		try {
-			const waetherUrl = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&country=${countryName}&key=${API_KEY_weather}`;
+			const waetherUrl = `//www.api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&country=${countryName}&key=${API_KEY_weather}`;
 			const weatherData = await axios.get(waetherUrl);
 			// forecast for 16 days from the current date
 			const weatherForecastData = weatherData.data.data;
@@ -140,12 +140,12 @@ function UserInputsCreateTrips(input) {
 	async function pixabayApi(countryName, cityName, weatherForecastData) {
 		const { API_KEY_pix } = await getKeys();
 		try {
-			const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${cityName}`;
+			const pixabayUrl = `//www.pixabay.com/api/?key=${API_KEY_pix}&q=${cityName}`;
 			const image = await axios.get(pixabayUrl);
 			// verify pixabay has image for entered cityName (obscure location) ✅
 			// taking the first img cuz of api returns the object inorder of download rate
 			if (image.data.hits.length == 0) {
-				const pixabayUrl = `https://pixabay.com/api/?key=${API_KEY_pix}&q=${countryName}`;
+				const pixabayUrl = `//www.pixabay.com/api/?key=${API_KEY_pix}&q=${countryName}`;
 				const image = await axios.get(pixabayUrl);
 				const img = image.data.hits[0].webformatURL;
 				// console.log(image);
@@ -168,7 +168,7 @@ function UserInputsCreateTrips(input) {
 	) {
 		try {
 			const response = await axios.get(
-				`https://restcountries.eu/rest/v2/name/${countryName}`
+				`//www.restcountries.eu/rest/v2/name/${countryName}`
 			);
 			const restcountriesDate = response.data[0];
 			console.log(restcountriesDate);
