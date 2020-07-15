@@ -12,12 +12,14 @@
 
 
 ### Technologies 
-1. JS 
-2. HTML
-3. Scss
-4. express 
-5. Webpack
-6. worker services
+1- JS 
+2- HTML
+3- Scss
+4- express 
+5- Webpack
+6- Worker services
+7- Google AutoComplate
+8- JSON
 
 
 
