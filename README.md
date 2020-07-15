@@ -1,4 +1,4 @@
-# Udacity-Capstone_Project_Travel_app
+## Udacity-Capstone_Project_Travel_app
 
 ### The goal of this project
 
