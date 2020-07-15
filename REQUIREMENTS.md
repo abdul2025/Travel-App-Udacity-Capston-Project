@@ -12,6 +12,6 @@
 
 - [✅] Minify js and styles in the production environment
 
-- [] Response from the API must be added to the view for a user to see
+- [✅] Response from the API must be added to the view for a user to see
 
-- [] Be able to show content offline
+- [✅] Be able to show content offline

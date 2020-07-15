@@ -10,7 +10,7 @@ the following lines in order to do the jest test accourding to https://jestjs.io
 {
 	"presets": ["@babel/preset-env"],
 
-	"plugins": ["@babel/syntax-dynamic-import"],
+	"plugins": [["@babel/syntax-dynamic-import"], ["@babel/transform-runtime"]],
 
 	"env": {
 		"test": {
