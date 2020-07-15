@@ -40,4 +40,4 @@ npm run start
 [Heroku](https://www.heroku.com/)
 
 ## Website link: 
-[Nlp-web-page](https://travel-app-new.herokuapp.com/).
+[travel-app-new-page](https://travel-app-new.herokuapp.com/).
