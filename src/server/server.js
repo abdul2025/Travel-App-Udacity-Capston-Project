@@ -25,10 +25,6 @@ app.listen(port, function () {
 	console.log(` app listening on port ${port}`);
 });
 
-app.get('/', function (req, res) {
-	res.sendFile(path.join(process.cwd(), '/dist/index.html'));
-});
-
 // Get keys from Env
 function apiKeys() {
 	const { API_USERNAME, API_KEY_weather, API_KEY_pix } = process.env;

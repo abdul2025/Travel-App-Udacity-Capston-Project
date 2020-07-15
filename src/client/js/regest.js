@@ -52,7 +52,7 @@ function registerClient() {
 		if (emailValidation(email)) {
 			if (password.length > 4) {
 				try {
-					const singUp = await axios.post('/singup', {
+					const singUp = await axios.post('http://localhost:3000/singup', {
 						email: email,
 						password: password,
 					});
@@ -95,7 +95,7 @@ function registerClient() {
 		if (emailValidation(email)) {
 			if (password.length > 4) {
 				try {
-					const login = await axios.get('/login');
+					const login = await axios.get('http://localhost:3000/login');
 					const result = login.data.users;
 					console.log(result);
 					function emailExists(user) {

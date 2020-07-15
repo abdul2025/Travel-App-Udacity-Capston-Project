@@ -7,10 +7,11 @@ module.exports = {
 	entry: './src/client/index.js',
 	mode: 'development',
 	devtool: 'source-map', // this will make the app readable and debuggable in browser console..... showing the exact line in our assets
-	stats: 'normal', // output "verbose" == everything, in the terminal building-- // minimal == Only output when errors or new compilation happen // normal == Standard output.
+	// stats: 'normal', // output "verbose" == everything, in the terminal building-- // minimal == Only output when errors or new compilation happen // normal == Standard output.
 	output: {
-		libraryTarget: 'var', // that one kind of many other to access the bundle global context of our assets js.code ex. (in index.html to handle event)
-		library: 'Client', /// name it whatever we want
+		// libraryTarget: 'var', // that one kind of many other to access the bundle global context of our assets js.code ex. (in index.html to handle event)
+		// library: 'Client', /// name it whatever we want
+		filename: 'bundle.js',
 	},
 	module: {
 		rules: [

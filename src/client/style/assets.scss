@@ -1,7 +1,7 @@
 $font_Piedra: 'Piedra&display=swap';
 $font_Noto_sans: 'Noto+Sans+JP:wght@700&display=swap';
 @mixin google-font($family) {
-	@import url('//www.fonts.googleapis.com/css?family=#{$family}');
+	@import url('https://fonts.googleapis.com/css?family=#{$family}');
 }
 @include google-font($font_Piedra);
 @include google-font($font_Noto_sans);

@@ -310,7 +310,7 @@ document
 // Getting api keys from var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
 async function getKeys() {
 	try {
-		const keys = await axios.get('/keys');
+		const keys = await axios.get('http://localhost:3000/keys');
 		const { API_KEY_pix, API_KEY_weather, API_USERNAME } = keys.data;
 
 		return {
