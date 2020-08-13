@@ -1,4 +1,5 @@
 import deImg from '../media/airline.jpg';
+import $ from 'jquery'
 import {
 	saveTripToLocalStorage,
 	delateTripFromLocalStorage,
@@ -28,7 +29,7 @@ class CreateTrips {
 
 	// calculate avarage max and min temp weather
 	avarageWeather() {
-		console.log(this.arg);
+
 		let max = 0;
 		let min = 0;
 		this.weatherForecastData.forEach((day) => {
@@ -55,11 +56,11 @@ class CreateTrips {
 			/// days left in the same year
 			this.daysleftToDeparting = `${
 				(this.month - this.curDate[1]) * 30 + this.day - this.curDate[2]
-			} days`;
+				} days`;
 		} else if (years === 1) {
 			this.daysleftToDeparting = ` ${
 				this.month * 30 - this.day + daysLeftInCurYear
-			} days`;
+				} days`;
 		}
 		this.departingDate = `${this.year}, ${this.month}, ${this.day}`;
 	}
@@ -90,7 +91,7 @@ class CreateTrips {
 // recive user input and current date
 // call createTrip class
 function UserInputsCreateTrips(input) {
-	console.log(input);
+
 
 	/************************************Handle API errors and followed functions**************************************************************************/
 	function updateUIAPIErr(message) {
@@ -100,7 +101,7 @@ function UserInputsCreateTrips(input) {
 		apiErrContainer.style.display = 'grid';
 		erroMess.textContent = message;
 		closeLayout.addEventListener('click', () => {
-			console.log('clicked');
+
 			apiErrContainer.style.display = 'none';
 		});
 	}
@@ -109,8 +110,10 @@ function UserInputsCreateTrips(input) {
 	async function geonamesApi() {
 		const { API_USERNAME } = await getKeys();
 		try {
-			const geonamesUrl = `http://api.geonames.org/searchJSON?q=${input.cityName}&maxRows=1&username=${API_USERNAME}`;
+			// add cors-anywhere to fix cors policy
+			const geonamesUrl = `https://cors-anywhere.herokuapp.com/http://api.geonames.org/searchJSON?q=${input.cityName}&maxRows=1&username=${API_USERNAME}`;
 			const res = await axios.get(geonamesUrl);
+			console.log(res)
 			const { lat, lng, countryName, name } = res.data.geonames[0];
 			weatherbitApi(lat, lng, countryName, name);
 		} catch (err) {
@@ -171,7 +174,7 @@ function UserInputsCreateTrips(input) {
 				`https://restcountries.eu/rest/v2/name/${countryName}`
 			);
 			const restcountriesDate = response.data[0];
-			console.log(restcountriesDate);
+
 			/***********************Create TRIP*********************************************************/
 			const newTrip = new CreateTrips(
 				countryName,
@@ -203,7 +206,7 @@ function UserInputsCreateTrips(input) {
 let trip_key = localStorage.length;
 //////*********************************Update UI adding trip, saving, deleting***************************************//
 function updateUI(tripDetails) {
-	console.log(tripDetails);
+
 	const domObj = {
 		trip_destenation: document.querySelector('.trip-destenation'),
 		trip_departure: document.querySelector('.trip-departure'),
@@ -307,10 +310,12 @@ document
 		}
 	});
 
+$('#btn-search').css('background', 'red')
+
 // Getting api keys from var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
 async function getKeys() {
 	try {
-		const keys = await axios.get('http://localhost:3000/keys');
+		const keys = await axios.get('/keys');
 		const { API_KEY_pix, API_KEY_weather, API_USERNAME } = keys.data;
 
 		return {
@@ -324,5 +329,6 @@ async function getKeys() {
 		);
 	}
 }
+
 
 export { getKeys, UserInputsCreateTrips };
