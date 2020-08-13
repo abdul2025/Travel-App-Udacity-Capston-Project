@@ -310,7 +310,7 @@ document
 		}
 	});
 
-$('#btn-search').css('background', 'red')
+
 
 // Getting api keys from var env (BackEnd) --->  (IN ORDER TO KEEP OUR KEYS SECOUR)
 async function getKeys() {
